@@ -7,3 +7,4 @@ commands:
     aliases: ct
     permission: customtitle.menu
     permission-message: "&cУ вас нет прав"
+softdepend: ["PlaceholderAPI"]

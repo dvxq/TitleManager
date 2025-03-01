@@ -18,41 +18,44 @@ public class TitleCreationMenuBuilder {
     private Inventory getTitleCreationMenu() {
         Inventory menu = Bukkit.createInventory(null, 45, "Создание титула");
         ItemStack red_pane = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
-        ItemStack golden_apple = new ItemStack(Material.GOLDEN_APPLE, 1);
+        ItemStack painting = new ItemStack(Material.PAINTING, 1);
         ItemStack ender_eye = new ItemStack(Material.ENDER_EYE, 1);
         ItemStack writable_book = new ItemStack(Material.WRITABLE_BOOK, 1);
+        String orange_color = "#E94F08";
+        String yellow_color = "#EDAE01";
+        String white_color = "#FFE4BD";
 
         ItemMeta paneItemMeta = red_pane.getItemMeta();
         paneItemMeta.setDisplayName(" ");
         red_pane.setItemMeta(paneItemMeta);
 
-        ItemMeta goldenAppleItemMeta = golden_apple.getItemMeta();
-        goldenAppleItemMeta.setLore(List.of(
-                " ",
-                ChatColor.GRAY+ "Просто лежит для красоты"
+        ItemMeta paintingItemMeta = painting.getItemMeta();
+        paintingItemMeta.setDisplayName(ChatColor.of(white_color) +"Доступные титулы");
+        paintingItemMeta.setLore(List.of(
+                ""
         ));
-        golden_apple.setItemMeta(goldenAppleItemMeta);
+        painting.setItemMeta(paintingItemMeta);
 
 
         ItemMeta enderEyeItemMeta = ender_eye.getItemMeta();
-        enderEyeItemMeta.setDisplayName(ChatColor.RED + "Создать кастомный титул " + ChatColor.GRAY + "(ЛКМ)");
+        enderEyeItemMeta.setDisplayName(ChatColor.of(white_color) + "Создать кастомный титул");
         enderEyeItemMeta.setLore(List.of(
                 " ",
-                ChatColor.WHITE + "Количество доступных марок: " + ChatColor.AQUA + "connect mysql"
+                ChatColor.of(orange_color) + "Количество доступных марок: " + ChatColor.of(yellow_color) + "Неизвестно"
         ));
         ender_eye.setItemMeta(enderEyeItemMeta);
 
         ItemMeta writableBookItemMeta = writable_book.getItemMeta();
-        writableBookItemMeta.setDisplayName(ChatColor.GOLD + "Основная информация");
+        writableBookItemMeta.setDisplayName(ChatColor.of(white_color) + "Основная информация");
         writableBookItemMeta.setLore(List.of(
                 " ",
-                ChatColor.GRAY+ "1. " + ChatColor.WHITE+ "Бла бла бла",
-                ChatColor.GRAY+ "2. " + ChatColor.WHITE+ "Бла бла бла",
-                ChatColor.GRAY+ "3. " + ChatColor.WHITE+ "Бла бла бла"
+                ChatColor.of(orange_color) + "1. " + ChatColor.of(yellow_color) + "Бла бла бла",
+                ChatColor.of(orange_color) + "2. " + ChatColor.of(yellow_color) + "Бла бла бла",
+                ChatColor.of(orange_color) + "3. " + ChatColor.of(yellow_color) + "Бла бла бла"
         ));
         writable_book.setItemMeta(writableBookItemMeta);
 
-        menu.setItem(20, golden_apple);
+        menu.setItem(20, painting);
         menu.setItem(22, ender_eye);
         menu.setItem(24, writable_book);
 
