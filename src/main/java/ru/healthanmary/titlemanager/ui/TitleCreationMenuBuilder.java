@@ -41,7 +41,7 @@ public class TitleCreationMenuBuilder {
         enderEyeItemMeta.setDisplayName(ChatColor.of(white_color) + "Создать кастомный титул");
         enderEyeItemMeta.setLore(List.of(
                 " ",
-                ChatColor.of(orange_color) + "Количество доступных марок: " + ChatColor.of(yellow_color) + "Неизвестно"
+                ChatColor.of(orange_color) + "Количество доступных поинтов: " + ChatColor.of(yellow_color) + "Неизвестно"
         ));
         ender_eye.setItemMeta(enderEyeItemMeta);
 
