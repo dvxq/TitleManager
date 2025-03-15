@@ -8,10 +8,10 @@ import org.jetbrains.annotations.NotNull;
 import ru.healthanmary.titlemanager.mysql.Storage;
 import ru.healthanmary.titlemanager.util.Title;
 
-public class fghfcommand implements CommandExecutor {
+public class t1cmd implements CommandExecutor {
     private Storage storage;
 
-    public fghfcommand(Storage storage) {
+    public t1cmd(Storage storage) {
         this.storage = storage;
     }
 

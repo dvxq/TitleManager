@@ -8,6 +8,12 @@ import org.jetbrains.annotations.NotNull;
 import ru.healthanmary.titlemanager.ui.TitleCreationMenuBuilder;
 
 public class OpenTitleCreationMenuCommand implements CommandExecutor {
+    private TitleCreationMenuBuilder menuBuilder;
+
+    public OpenTitleCreationMenuCommand(TitleCreationMenuBuilder menuBuilder) {
+        this.menuBuilder = menuBuilder;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
@@ -16,7 +22,7 @@ public class OpenTitleCreationMenuCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        player.openInventory(TitleCreationMenuBuilder.menu);
+        player.openInventory(menuBuilder.getTitleCreationMenu(player.getName()));
         return true;
     }
 }

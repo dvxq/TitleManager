@@ -1,11 +1,11 @@
-package ru.healthanmary.titlemanager.util;
+package ru.healthanmary.titlemanager.placeholder;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CustomTitleTabPlaceholder extends PlaceholderExpansion {
+public class TitleTabPlaceholder extends PlaceholderExpansion {
     @Override
     public @NotNull String getIdentifier() {
         return "custom-player-title_tab";

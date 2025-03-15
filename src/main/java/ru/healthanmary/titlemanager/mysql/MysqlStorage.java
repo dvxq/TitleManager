@@ -43,17 +43,16 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public Title getTitleByName(String name) {
+    public Title getCurrentTitleByName(String name) {
         try (Connection connection = createConnection()){
             PreparedStatement ps = connection.prepareStatement("""
                 SELECT * FROM `current-titles` WHERE LOWER(player_name) = LOWER(?)
             """);
             ps.setString(1, name);
-            ResultSet rs = ps.getResultSet();
+            ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
-                int titleId = rs.getInt("id");
-                System.out.println(titleId);
-                return getTitleById(titleId);
+                return getTitleById(rs.getInt("id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,8 +61,28 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public int getPlayerPoints(String name) {
-        return 0;
+    public String getPlayerPoints(String name) {
+        try (Connection connection = createConnection();
+        PreparedStatement ps = connection.prepareStatement("""
+                SELECT * FROM `player-points` WHERE LOWER(player_name) = LOWER(?)
+            """);){
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("points");
+            } else {
+                PreparedStatement pst = connection.prepareStatement("""
+                INSERT INTO `player-points`(player_name, points) VALUES(?, ?)
+            """);
+                pst.setString(1, name);
+                pst.setInt(2, 0);
+                pst.executeUpdate();
+                return "0";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Неизвестно";
     }
 
     @Override
@@ -80,9 +99,37 @@ public class MysqlStorage implements Storage {
     public void takePlayerPoints(String name, int points) {
 
     }
-
     @Override
     public ArrayList<Title> getPendingTitles() {
         return null;
+    }
+
+    @Override
+    public void setCurrentTitle(String name, Integer id) {
+        try (Connection connection = createConnection();
+             PreparedStatement ps = connection.prepareStatement("""
+                SELECT * FROM `current-titles` WHERE LOWER(player_name) = LOWER(?)
+            """);) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                PreparedStatement ps2 = connection.prepareStatement("""
+                UPDATE `current-titles` SET player_name = ?, id = ? WHERE LOWER(player_name) = ?
+            """);
+                ps2.setString(1, name);
+                ps2.setInt(2, id);
+                ps2.setString(3, name);
+                ps2.executeUpdate();
+            } else {
+                PreparedStatement ps2 = connection.prepareStatement("""
+                INSERT INTO `current-titles`(player_name, id) VALUES(?, ?)
+            """);
+                ps2.setString(1, name);
+                ps2.setInt(2, id);
+                ps2.executeUpdate();
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

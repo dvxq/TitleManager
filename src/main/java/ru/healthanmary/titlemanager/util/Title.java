@@ -7,12 +7,12 @@ import java.sql.Timestamp;
 
 @AllArgsConstructor @Getter
 public class Title {
-    int id;
-    String title_text;
-    String player_name;
-    Timestamp request_date;
-    Timestamp accept_date;
-    String accepted_admin;
-    String admin_comment;
-    boolean is_accepted;
+    private int id;
+    private String title_text;
+    private String player_name;
+    private Timestamp request_date;
+    private Timestamp accept_date;
+    private String accepted_admin;
+    private String admin_comment;
+    private boolean is_accepted;
 }

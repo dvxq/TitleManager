@@ -4,19 +4,26 @@ import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import ru.healthanmary.titlemanager.mysql.Storage;
+import ru.healthanmary.titlemanager.util.CustomMenuHolder;
 
 import java.util.List;
 
 public class TitleCreationMenuBuilder {
-    public static Inventory menu;
-    public TitleCreationMenuBuilder() {
-        this.menu = getTitleCreationMenu();
+    private Storage storage;
+
+    public TitleCreationMenuBuilder(Storage storage) {
+        this.storage = storage;
     }
-    private Inventory getTitleCreationMenu() {
-        Inventory menu = Bukkit.createInventory(null, 45, "Создание титула");
+
+    public Inventory getTitleCreationMenu(String player_name) {
+        Inventory menu = Bukkit.createInventory(new CustomMenuHolder(null), 45, "Создание титула");
         ItemStack red_pane = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
         ItemStack painting = new ItemStack(Material.PAINTING, 1);
         ItemStack ender_eye = new ItemStack(Material.ENDER_EYE, 1);
@@ -41,7 +48,8 @@ public class TitleCreationMenuBuilder {
         enderEyeItemMeta.setDisplayName(ChatColor.of(white_color) + "Создать кастомный титул");
         enderEyeItemMeta.setLore(List.of(
                 " ",
-                ChatColor.of(orange_color) + "Количество доступных поинтов: " + ChatColor.of(yellow_color) + "Неизвестно"
+                ChatColor.of(orange_color) + "Количество доступных поинтов: " +
+                        ChatColor.of(yellow_color) + storage.getPlayerPoints(player_name)
         ));
         ender_eye.setItemMeta(enderEyeItemMeta);
 

@@ -10,12 +10,13 @@ public interface Storage {
     // 2
     ArrayList<Title> arrayOfTitles(int id);
     //3
-    Title getTitleByName(String name);
+    Title getCurrentTitleByName(String name);
     //4
-    int getPlayerPoints(String name);
+    String getPlayerPoints(String name);
     // я хз как работать с енумами  5-6
     void setPlayerPoints(String name, int points);
     void resetPlayerPoints(String name);
     void takePlayerPoints(String name, int points);
     ArrayList<Title> getPendingTitles();
+    void setCurrentTitle(String name, Integer id);
 }
