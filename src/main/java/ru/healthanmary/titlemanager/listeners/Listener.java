@@ -1,5 +1,6 @@
 package ru.healthanmary.titlemanager.listeners;
 
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,6 +28,12 @@ public class Listener implements org.bukkit.event.Listener {
     public void onInventoryClickEvent(InventoryClickEvent e) {
         if (menuManager.isTitleMenu(e.getInventory())) {
             e.setCancelled(true);
+            Player player = (Player) e.getWhoClicked();
+            switch (e.getSlot()) {
+                case 20: {
+
+                }
+            }
         }
     }
 
