@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ru.healthanmary.titlemanager.ui.TitleCreationMenuBuilder;
 
-public class OpenTitleCreationMenuCommand implements CommandExecutor {
+public class OpenTitleCreationMenuCmd implements CommandExecutor {
     private TitleCreationMenuBuilder menuBuilder;
 
-    public OpenTitleCreationMenuCommand(TitleCreationMenuBuilder menuBuilder) {
+    public OpenTitleCreationMenuCmd(TitleCreationMenuBuilder menuBuilder) {
         this.menuBuilder = menuBuilder;
     }
 

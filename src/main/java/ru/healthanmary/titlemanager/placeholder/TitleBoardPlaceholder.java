@@ -20,7 +20,7 @@ public class TitleBoardPlaceholder extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return "Null";
+        return "Author";
     }
 
     @Override

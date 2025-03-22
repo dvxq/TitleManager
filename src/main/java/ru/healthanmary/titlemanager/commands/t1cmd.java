@@ -30,7 +30,7 @@ public class t1cmd implements CommandExecutor {
         sender.sendMessage("Дата рассмотрения: " + title.getAccept_date());
         sender.sendMessage("Рассмотрен админом: " + title.getAccepted_admin());
         sender.sendMessage("Комментарий админа: " + title.getAdmin_comment());
-        sender.sendMessage("Рассмотрен ли: " + title.is_accepted());
+        sender.sendMessage("Состояниe: " + title.getState().toString());
         return true;
     }
 }

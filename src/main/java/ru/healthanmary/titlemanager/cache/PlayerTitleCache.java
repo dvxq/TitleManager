@@ -1,5 +1,6 @@
 package ru.healthanmary.titlemanager.cache;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import ru.healthanmary.titlemanager.TitleManager;
 import ru.healthanmary.titlemanager.util.Title;
@@ -9,9 +10,15 @@ import java.util.UUID;
 
 public class PlayerTitleCache {
     private HashMap<UUID, Title> currentPlayersTitles = new HashMap<>();
+    public void switchDebugMode() {
+        if (isDebugEnabled) isDebugEnabled = false;
+        else isDebugEnabled = true;
+    }
+    @Getter
+    private boolean isDebugEnabled = false;
     public PlayerTitleCache() {
         Bukkit.getScheduler().runTaskTimer(TitleManager.instance, () -> {
-            System.out.println(currentPlayersTitles.toString());
+            if (isDebugEnabled) System.out.println(currentPlayersTitles.toString());
         }, 0L, 100L);
     }
     public void putTitle(UUID uuid, Title title) {

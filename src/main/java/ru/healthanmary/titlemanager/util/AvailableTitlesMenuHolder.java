@@ -4,10 +4,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
-public class AvailibleTitlesMenuHolder implements InventoryHolder {
+public class AvailableTitlesMenuHolder implements InventoryHolder {
     private Inventory inventory;
 
-    public AvailibleTitlesMenuHolder(Inventory inventory) {
+    public AvailableTitlesMenuHolder(Inventory inventory) {
         this.inventory = inventory;
     }
 

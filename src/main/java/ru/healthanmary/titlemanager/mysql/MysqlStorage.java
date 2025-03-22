@@ -5,6 +5,8 @@ import ru.healthanmary.titlemanager.util.Title;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Queue;
 
 public class MysqlStorage implements Storage {
     private String url = "jdbc:mysql://" + Config.MySqlData.HOST + ":" + Config.MySqlData.PORT + "/" + Config.MySqlData.DB_NAME;
@@ -27,9 +29,9 @@ public class MysqlStorage implements Storage {
                 Timestamp accept_date = rs.getTimestamp("accept_date");
                 String accepted_admin = rs.getString("accepted_admin");
                 String admin_comment = rs.getString("admin_comment");
-                boolean is_accepted = rs.getBoolean("is_accepted");
+                Title.State state = Title.State.valueOf(rs.getString("state"));
 
-                return new Title(id, title_text, player_name, request_date, accept_date, accepted_admin, admin_comment, is_accepted);
+                return new Title(id, title_text, player_name, request_date, accept_date, accepted_admin, admin_comment, state);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,8 +40,32 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public ArrayList<Title> arrayOfTitles(int id) {
-        return null;
+    public ArrayList<Title> getArrayOfTitles(String name) {
+        ArrayList<Title> titles = new ArrayList<>();
+
+        try (Connection connection = createConnection();
+            PreparedStatement ps = connection.prepareStatement("""
+                SELECT * FROM `titles` WHERE LOWER(player_name) = LOWER(?)
+        """)){
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String title_text = rs.getString("title");
+                String player_name = rs.getString("player_name");
+                Timestamp request_date = rs.getTimestamp("request_date");
+                Timestamp accept_date = rs.getTimestamp("accept_date");
+                String accepted_admin = rs.getString("accepted_admin");
+                String admin_comment = rs.getString("admin_comment");
+                Title.State state = Title.State.valueOf(rs.getString("state"));
+
+                titles.add(new Title(id, title_text, player_name, request_date, accept_date, accepted_admin, admin_comment, state));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return titles;
     }
 
     @Override

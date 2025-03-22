@@ -1,6 +1,5 @@
-package ru.healthanmary.titlemanager.listeners;
+package ru.healthanmary.titlemanager.listener;
 
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
