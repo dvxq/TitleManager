@@ -15,12 +15,12 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public Title getTitleById(int id) {
+    public Title getTitleById(int titleId) {
         try (Connection connection = createConnection()) {
             PreparedStatement ps = connection.prepareStatement("""
                 SELECT * FROM titles WHERE id = ?
             """);
-            ps.setInt(1, id);
+            ps.setInt(1, titleId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String title_text = rs.getString("title");
@@ -31,7 +31,7 @@ public class MysqlStorage implements Storage {
                 String admin_comment = rs.getString("admin_comment");
                 Title.State state = Title.State.valueOf(rs.getString("state"));
 
-                return new Title(id, title_text, player_name, request_date, accept_date, accepted_admin, admin_comment, state);
+                return new Title(titleId, title_text, player_name, request_date, accept_date, accepted_admin, admin_comment, state);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,14 +40,13 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public ArrayList<Title> getArrayOfTitles(String name) {
+    public ArrayList<Title> getArrayOfTitles(String playerName) {
         ArrayList<Title> titles = new ArrayList<>();
-
         try (Connection connection = createConnection();
             PreparedStatement ps = connection.prepareStatement("""
                 SELECT * FROM `titles` WHERE LOWER(player_name) = LOWER(?)
         """)){
-            ps.setString(1, name);
+            ps.setString(1, playerName);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -69,12 +68,12 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public Title getCurrentTitleByName(String name) {
+    public Title getCurrentTitleByName(String playerName) {
         try (Connection connection = createConnection()){
             PreparedStatement ps = connection.prepareStatement("""
                 SELECT * FROM `current-titles` WHERE LOWER(player_name) = LOWER(?)
             """);
-            ps.setString(1, name);
+            ps.setString(1, playerName);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -87,12 +86,12 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public String getPlayerPoints(String name) {
+    public String getPlayerPoints(String playerName) {
         try (Connection connection = createConnection();
         PreparedStatement ps = connection.prepareStatement("""
                 SELECT * FROM `player-points` WHERE LOWER(player_name) = LOWER(?)
             """);){
-            ps.setString(1, name);
+            ps.setString(1, playerName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getString("points");
@@ -100,7 +99,7 @@ public class MysqlStorage implements Storage {
                 PreparedStatement pst = connection.prepareStatement("""
                 INSERT INTO `player-points`(player_name, points) VALUES(?, ?)
             """);
-                pst.setString(1, name);
+                pst.setString(1, playerName);
                 pst.setInt(2, 0);
                 pst.executeUpdate();
                 return "0";
@@ -112,17 +111,17 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public void setPlayerPoints(String name, int points) {
+    public void setPlayerPoints(String playerName, int points) {
 
     }
 
     @Override
-    public void resetPlayerPoints(String name) {
+    public void resetPlayerPoints(String playerName) {
 
     }
 
     @Override
-    public void takePlayerPoints(String name, int points) {
+    public void takePlayerPoints(String playerName, int points) {
 
     }
     @Override
@@ -131,27 +130,27 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
-    public void setCurrentTitle(String name, Integer id) {
+    public void setCurrentTitle(String playerName, Integer titleId) {
         try (Connection connection = createConnection();
              PreparedStatement ps = connection.prepareStatement("""
                 SELECT * FROM `current-titles` WHERE LOWER(player_name) = LOWER(?)
             """);) {
-            ps.setString(1, name);
+            ps.setString(1, playerName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
                 PreparedStatement ps2 = connection.prepareStatement("""
                 UPDATE `current-titles` SET player_name = ?, id = ? WHERE LOWER(player_name) = ?
             """);
-                ps2.setString(1, name);
-                ps2.setInt(2, id);
-                ps2.setString(3, name);
+                ps2.setString(1, playerName);
+                ps2.setInt(2, titleId);
+                ps2.setString(3, playerName);
                 ps2.executeUpdate();
             } else {
                 PreparedStatement ps2 = connection.prepareStatement("""
                 INSERT INTO `current-titles`(player_name, id) VALUES(?, ?)
             """);
-                ps2.setString(1, name);
-                ps2.setInt(2, id);
+                ps2.setString(1, playerName);
+                ps2.setInt(2, titleId);
                 ps2.executeUpdate();
             }
         }catch (SQLException e) {

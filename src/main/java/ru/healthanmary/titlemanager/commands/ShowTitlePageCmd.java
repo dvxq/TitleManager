@@ -7,21 +7,18 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
 
-public class OpenAvailableTitlesMenuCmd implements CommandExecutor {
-    private AvailableTitlesMenuBuilder menuBuilder;
+public class ShowTitlePageCmd implements CommandExecutor {
+    private AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
 
-    public OpenAvailableTitlesMenuCmd(AvailableTitlesMenuBuilder menuBuilder) {
-        this.menuBuilder = menuBuilder;
+    public ShowTitlePageCmd(AvailableTitlesMenuBuilder availableTitlesMenuBuilder) {
+        this.availableTitlesMenuBuilder = availableTitlesMenuBuilder;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("Только для игроков!");
-            return true;
-        }
         Player player = (Player) sender;
-        player.openInventory(menuBuilder.getAvailableTitlesMenu(player.getName(), 1));
-        return false;
+        player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(),
+                Integer.parseInt((args[0]))));
+        return true;
     }
 }

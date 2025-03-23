@@ -6,8 +6,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.InventoryHolder;
 import ru.healthanmary.titlemanager.cache.PlayerTitleCache;
 import ru.healthanmary.titlemanager.mysql.Storage;
+import ru.healthanmary.titlemanager.util.AvailableTitlesMenuHolder;
 import ru.healthanmary.titlemanager.util.MenuManager;
 import ru.healthanmary.titlemanager.util.Title;
 
@@ -35,7 +37,13 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
     }
+    @EventHandler
+    public void onInventoryClickEvent2(InventoryClickEvent e) {
+        if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
+            AvailableTitlesMenuHolder holder = (AvailableTitlesMenuHolder) e.getInventory();
 
+        }
+    }
     @EventHandler
     public void onInventoryDragEvent(InventoryDragEvent e) {
         if (menuManager.isTitleMenu(e.getInventory())) {

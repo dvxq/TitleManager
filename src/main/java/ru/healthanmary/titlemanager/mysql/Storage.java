@@ -3,15 +3,16 @@ package ru.healthanmary.titlemanager.mysql;
 import ru.healthanmary.titlemanager.util.Title;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface Storage {
-    Title getTitleById(int id);
-    ArrayList<Title> getArrayOfTitles(String name);
-    Title getCurrentTitleByName(String name);
-    String getPlayerPoints(String name);
-    void setPlayerPoints(String name, int points);
-    void resetPlayerPoints(String name);
-    void takePlayerPoints(String name, int points);
+    Title getTitleById(int titleId);
+    List<Title> getArrayOfTitles(String playerName);
+    Title getCurrentTitleByName(String playerName);
+    String getPlayerPoints(String playerName);
+    void setPlayerPoints(String playerName, int points);
+    void resetPlayerPoints(String playerName);
+    void takePlayerPoints(String playerName, int points);
     ArrayList<Title> getPendingTitles();
-    void setCurrentTitle(String name, Integer id);
+    void setCurrentTitle(String playerName, Integer titleId);
 }

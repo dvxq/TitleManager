@@ -12,4 +12,5 @@ commands:
   switchdebug:
   gettitleitem:
   availabletitles:
+  showtitlemenu:
 softdepend: ["PlaceholderAPI"]
