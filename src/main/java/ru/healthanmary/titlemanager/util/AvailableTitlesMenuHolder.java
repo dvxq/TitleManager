@@ -14,10 +14,14 @@ public class AvailableTitlesMenuHolder implements InventoryHolder {
     private int currentPage;
     @Getter @Setter
     private int maxPage;
+    @Getter @Setter
+    private int minPage;
 
-    public AvailableTitlesMenuHolder(Inventory inventory, int currentPage) {
+    public AvailableTitlesMenuHolder(Inventory inventory, int currentPage, int maxPage, int mixPage) {
         this.inventory = inventory;
         this.currentPage = currentPage;
+        this.maxPage = maxPage;
+        this.minPage = mixPage;
     }
 
     @Override

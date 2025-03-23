@@ -1,14 +1,15 @@
 package ru.healthanmary.titlemanager.listener;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.InventoryHolder;
 import ru.healthanmary.titlemanager.cache.PlayerTitleCache;
 import ru.healthanmary.titlemanager.mysql.Storage;
+import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
 import ru.healthanmary.titlemanager.util.AvailableTitlesMenuHolder;
 import ru.healthanmary.titlemanager.util.MenuManager;
 import ru.healthanmary.titlemanager.util.Title;
@@ -19,11 +20,13 @@ public class Listener implements org.bukkit.event.Listener {
     private Storage storage;
     private PlayerTitleCache playerCache;
     private MenuManager menuManager;
+    private AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
 
-    public Listener(Storage storage, PlayerTitleCache playerCache, MenuManager menuManager) {
+    public Listener(Storage storage, PlayerTitleCache playerCache, MenuManager menuManager, AvailableTitlesMenuBuilder availableTitlesMenuBuilder) {
         this.storage = storage;
         this.playerCache = playerCache;
         this.menuManager = menuManager;
+        this.availableTitlesMenuBuilder = availableTitlesMenuBuilder;
     }
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent e) {
@@ -38,10 +41,22 @@ public class Listener implements org.bukkit.event.Listener {
         }
     }
     @EventHandler
-    public void onInventoryClickEvent2(InventoryClickEvent e) {
+    public void onSwitchPage(InventoryClickEvent e) {
         if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
+            Player player = (Player) e.getWhoClicked();
             AvailableTitlesMenuHolder holder = (AvailableTitlesMenuHolder) e.getInventory();
+            if (e.getCurrentItem().getType() != Material.ARROW) return;
+            int maxPage = holder.getMaxPage();
+            int minPage = holder.getMinPage();
+            int currentPage = holder.getCurrentPage();
 
+            switch (e.getSlot()) {
+                case 52: {
+                    if (currentPage > minPage) {
+                        player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(), currentPage -= 1));
+                    }
+                }
+            }
         }
     }
     @EventHandler
