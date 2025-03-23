@@ -6,8 +6,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serial;
-
 public class AvailableTitlesMenuHolder implements InventoryHolder {
     private Inventory inventory;
     @Getter @Setter

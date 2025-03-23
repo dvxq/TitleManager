@@ -44,7 +44,7 @@ public class Listener implements org.bukkit.event.Listener {
     public void onSwitchPage(InventoryClickEvent e) {
         if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
             Player player = (Player) e.getWhoClicked();
-            AvailableTitlesMenuHolder holder = (AvailableTitlesMenuHolder) e.getInventory();
+            AvailableTitlesMenuHolder holder = (AvailableTitlesMenuHolder) e.getInventory().getHolder();
             if (e.getCurrentItem().getType() != Material.ARROW) return;
             int maxPage = holder.getMaxPage();
             int minPage = holder.getMinPage();
@@ -53,8 +53,16 @@ public class Listener implements org.bukkit.event.Listener {
             switch (e.getSlot()) {
                 case 52: {
                     if (currentPage > minPage) {
-                        player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(), currentPage -= 1));
+                        player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(), currentPage-1));
                     }
+                    break;
+                }
+                case 53: {
+                    if (currentPage < maxPage) {
+                        player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(), currentPage+1));
+
+                    }
+                    break;
                 }
             }
         }

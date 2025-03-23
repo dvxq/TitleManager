@@ -87,16 +87,18 @@ public class AvailableTitlesMenuBuilder {
         }
 
         List<Title> titles = splitedMap.get(page);
-        System.out.println(titles.size());
         List<Integer> availableSlots = new ArrayList<>(Arrays.asList(
                 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25,
                 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43
         ));
+        System.out.println("titles " + titles);
+
         for (Title title : titles) {
             int minAvailableSlot = Collections.min(availableSlots);
             inventory.setItem(minAvailableSlot, getTitleNametag(title));
             availableSlots.remove((Integer) minAvailableSlot);
         }
+
         return inventory;
     }
     public static HashMap<Integer, List<Title>> getSplitedMap (List<Title> inputArr) {
