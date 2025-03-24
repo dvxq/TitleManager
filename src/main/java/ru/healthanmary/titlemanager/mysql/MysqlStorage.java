@@ -133,7 +133,7 @@ public class MysqlStorage implements Storage {
     public boolean hasTitle(String playerName, int id) {
         try (Connection connection = createConnection();
              PreparedStatement ps = connection.prepareStatement("""
-            SELECT EXISTS(SELECT 1 FROM titles WHERE player_name = ? and id = ?)
+            SELECT EXISTS(SELECT 1 FROM titles WHERE player_name = ? and id = ? and state = 'ACCEPTED')
         """)){
             ps.setString(1, playerName);
             ps.setInt(2, id);

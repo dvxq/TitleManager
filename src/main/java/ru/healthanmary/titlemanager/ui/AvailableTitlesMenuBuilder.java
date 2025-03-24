@@ -137,7 +137,7 @@ public class AvailableTitlesMenuBuilder {
 
         String orange_color = "#E94F08";
         String purple_color = "#e3b5fa";
-        String comment = title.getAdmin_comment().isBlank() ? "Нету" : title.getAdmin_comment();
+        String comment = title.getAdmin_comment() == null || title.getAdmin_comment().isBlank() ? "Нету" : title.getAdmin_comment();
         String string_request_date = request_date.format(formatter);
         String string_accepted_date = null;
 

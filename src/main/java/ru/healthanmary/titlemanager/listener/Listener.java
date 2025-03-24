@@ -1,5 +1,6 @@
 package ru.healthanmary.titlemanager.listener;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,12 +46,27 @@ public class Listener implements org.bukkit.event.Listener {
     public void onChooseTitle(InventoryClickEvent e) {
         if (e.getClickedInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
             Player player = (Player) e.getWhoClicked();
-            int clickedSlot = e.getSlot();
+            String playerName = player.getName();
             AvailableTitlesMenuHolder holder = (AvailableTitlesMenuHolder) e.getInventory().getHolder();
             List<Title> titles = holder.getTitles();
+            int clickedSlot = e.getSlot();
             int titleIndex = getTitleIndex(clickedSlot);
-            if (titleIndex == -1 || titleIndex >= titles.size()) return;
-            player.sendMessage(String.valueOf(titles.get(titleIndex).getId()));
+
+            if (titleIndex == -1 || titleIndex >= titles.size()) {
+                return;
+            }
+
+            Title title = titles.get(titleIndex);
+            int id = title.getId();
+            if (storage.hasTitle(playerName, id)) {
+                player.closeInventory();
+                storage.setCurrentTitle(playerName, id);
+                playerCache.putTitle(player.getUniqueId(), title);
+                player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно сменили титул на" +
+                        ChatColor.AQUA + ": " + ChatColor.RESET + title.getTitle_text());
+            } else {
+                player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(playerName, holder.getCurrentPage()));
+            }
         }
     }
     @EventHandler
@@ -81,6 +97,16 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
     }
+//    @EventHandler
+//    public void onButtonClick(InventoryClickEvent e) {
+//        if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
+//            Player player = (Player) e.getWhoClicked();
+//            player.closeInventory();
+//            playerCache.clearValue(player.getUniqueId());
+//            storage.setCurrentTitle(player.getName(), null);
+//            player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно убрали отображение титула");
+//        }
+//    }
     @EventHandler
     public void onInventoryDragEvent(InventoryDragEvent e) {
         if (menuManager.isTitleMenu(e.getInventory())) {
