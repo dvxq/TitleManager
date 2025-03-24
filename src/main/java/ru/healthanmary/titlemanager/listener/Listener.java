@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +14,7 @@ import ru.healthanmary.titlemanager.cache.PlayerTitleCache;
 import ru.healthanmary.titlemanager.mysql.Storage;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
 import ru.healthanmary.titlemanager.util.AvailableTitlesMenuHolder;
+import ru.healthanmary.titlemanager.util.CustomMenuHolder;
 import ru.healthanmary.titlemanager.util.MenuManager;
 import ru.healthanmary.titlemanager.util.Title;
 
@@ -97,16 +99,17 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
     }
-//    @EventHandler
-//    public void onButtonClick(InventoryClickEvent e) {
-//        if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
-//            Player player = (Player) e.getWhoClicked();
-//            player.closeInventory();
-//            playerCache.clearValue(player.getUniqueId());
-//            storage.setCurrentTitle(player.getName(), null);
-//            player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно убрали отображение титула");
-//        }
-//    }
+    @EventHandler
+    public void onButtonClick(InventoryClickEvent e) {
+        if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder && e.getClickedInventory().getType() == InventoryType.CHEST
+                && e.getSlot() == 45) {
+            Player player = (Player) e.getWhoClicked();
+            player.closeInventory();
+            playerCache.clearValue(player.getUniqueId());
+            storage.setCurrentTitle(player.getName(), null);
+            player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно убрали отображение титула");
+        }
+    }
     @EventHandler
     public void onInventoryDragEvent(InventoryDragEvent e) {
         if (menuManager.isTitleMenu(e.getInventory())) {
@@ -121,6 +124,21 @@ public class Listener implements org.bukkit.event.Listener {
         playerCache.putTitle(player.getUniqueId(), title);
     }
 
+    @EventHandler
+    public void onInventoryClickEvent2(InventoryClickEvent e) {
+        if (e.getInventory().getHolder() instanceof CustomMenuHolder && e.getClickedInventory().getType() == InventoryType.CHEST) {
+            Player player = (Player) e.getWhoClicked();
+            switch (e.getSlot()) {
+                case 20: {
+                    player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(), 1));
+                    break;
+                }
+                case 24: {
+
+                }
+            }
+        }
+    }
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         Player player = e.getPlayer();

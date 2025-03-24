@@ -5,12 +5,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import ru.healthanmary.titlemanager.ui.TitleCreationMenuBuilder;
+import ru.healthanmary.titlemanager.ui.MainTitleMenuBuilder;
 
 public class OpenTitleCreationMenuCmd implements CommandExecutor {
-    private TitleCreationMenuBuilder menuBuilder;
+    private MainTitleMenuBuilder menuBuilder;
 
-    public OpenTitleCreationMenuCmd(TitleCreationMenuBuilder menuBuilder) {
+    public OpenTitleCreationMenuCmd(MainTitleMenuBuilder menuBuilder) {
         this.menuBuilder = menuBuilder;
     }
 

@@ -158,8 +158,12 @@ public class MysqlStorage implements Storage {
                 PreparedStatement ps2 = connection.prepareStatement("""
                 UPDATE `current-titles` SET player_name = ?, id = ? WHERE LOWER(player_name) = ?
             """);
+                if (titleId == null) {
+                    ps2.setNull(2, Types.INTEGER);
+                } else {
+                    ps2.setInt(2, titleId);
+                }
                 ps2.setString(1, playerName);
-                ps2.setInt(2, titleId);
                 ps2.setString(3, playerName);
                 ps2.executeUpdate();
             } else {
@@ -170,7 +174,7 @@ public class MysqlStorage implements Storage {
                 ps2.setInt(2, titleId);
                 ps2.executeUpdate();
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

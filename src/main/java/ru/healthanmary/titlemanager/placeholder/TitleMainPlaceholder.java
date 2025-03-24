@@ -4,16 +4,23 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.healthanmary.titlemanager.cache.PlayerTitleCache;
+import ru.healthanmary.titlemanager.util.Title;
 
-public class TitleTabPlaceholder extends PlaceholderExpansion {
+public class TitleMainPlaceholder extends PlaceholderExpansion {
+    private PlayerTitleCache playerCache;
+
+    public TitleMainPlaceholder(PlayerTitleCache playerCache) {
+        this.playerCache = playerCache;
+    }
     @Override
     public @NotNull String getIdentifier() {
-        return "custom-player-title_tab";
+        return "custom-player-title";
     }
 
     @Override
     public @NotNull String getAuthor() {
-        return "Null";
+        return "Author";
     }
 
     @Override
@@ -26,14 +33,10 @@ public class TitleTabPlaceholder extends PlaceholderExpansion {
         return true;
     }
 
-    
-
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
         if (player == null) return "";
-        // get from db
-//        String suffix = suffixCommand.getSuffixMap().get(player);
-//        return suffix == null ? "" : " " + suffix;
-        return "";
+        Title title = playerCache.getTitle(player.getUniqueId());
+        return title == null ? "" : " " + title.getTitle_text();
     }
 }

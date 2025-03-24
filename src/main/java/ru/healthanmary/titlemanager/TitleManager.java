@@ -9,8 +9,9 @@ import ru.healthanmary.titlemanager.config.Config;
 import ru.healthanmary.titlemanager.listener.Listener;
 import ru.healthanmary.titlemanager.mysql.MysqlStorage;
 import ru.healthanmary.titlemanager.mysql.Storage;
+import ru.healthanmary.titlemanager.placeholder.TitleMainPlaceholder;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
-import ru.healthanmary.titlemanager.ui.TitleCreationMenuBuilder;
+import ru.healthanmary.titlemanager.ui.MainTitleMenuBuilder;
 import ru.healthanmary.titlemanager.placeholder.TitleBoardPlaceholder;
 import ru.healthanmary.titlemanager.util.MenuManager;
 import ru.healthanmary.titlemanager.util.Title;
@@ -20,7 +21,7 @@ public final class TitleManager extends JavaPlugin {
     private Storage storage;
     private PlayerTitleCache playerCache;
     private MenuManager menuManager;
-    private TitleCreationMenuBuilder titleCreationMenuBuilder;
+    private MainTitleMenuBuilder titleCreationMenuBuilder;
     private AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
     @Override
     public void onEnable() {
@@ -31,11 +32,12 @@ public final class TitleManager extends JavaPlugin {
         storage = new MysqlStorage();
         playerCache = new PlayerTitleCache();
         menuManager = new MenuManager();
-        titleCreationMenuBuilder = new TitleCreationMenuBuilder(storage);
+        titleCreationMenuBuilder = new MainTitleMenuBuilder(storage);
         availableTitlesMenuBuilder = new AvailableTitlesMenuBuilder(storage);
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new TitleBoardPlaceholder(playerCache).register();
+            new TitleMainPlaceholder(playerCache).register();
         }
 
         getCommand("customtitle").setExecutor(new OpenTitleCreationMenuCmd(titleCreationMenuBuilder));

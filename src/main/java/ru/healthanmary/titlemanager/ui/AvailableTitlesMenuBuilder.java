@@ -57,7 +57,7 @@ public class AvailableTitlesMenuBuilder {
 
         ItemStack netherStar = new ItemStack(Material.NETHER_STAR, 1);
         ItemMeta starItemMeta = netherStar.getItemMeta();
-        String currentTitle = storage.getCurrentTitleByName(name).getTitle_text() == null ||
+        String currentTitle = storage.getCurrentTitleByName(name) == null ||
                 storage.getCurrentTitleByName(name).getTitle_text().isBlank() ? ChatColor.GRAY
                 + "Нету" : storage.getCurrentTitleByName(name).getTitle_text();
         starItemMeta.setDisplayName(ChatColor.WHITE + "Текущий титул: " + currentTitle);
