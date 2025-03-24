@@ -6,20 +6,25 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class AvailableTitlesMenuHolder implements InventoryHolder {
     private Inventory inventory;
-    @Getter @Setter
+    @Getter
     private int currentPage;
-    @Getter @Setter
+    @Getter
     private int maxPage;
-    @Getter @Setter
+    @Getter
     private int minPage;
+    @Getter
+    private List<Title> titles;
 
-    public AvailableTitlesMenuHolder(Inventory inventory, int currentPage, int maxPage, int mixPage) {
+    public AvailableTitlesMenuHolder(Inventory inventory, int currentPage, int maxPage, int mixPage, List<Title> titles) {
         this.inventory = inventory;
         this.currentPage = currentPage;
         this.maxPage = maxPage;
         this.minPage = mixPage;
+        this.titles = titles;
     }
 
     @Override

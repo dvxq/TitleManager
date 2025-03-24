@@ -14,5 +14,6 @@ public interface Storage {
     void resetPlayerPoints(String playerName);
     void takePlayerPoints(String playerName, int points);
     ArrayList<Title> getPendingTitles();
+    boolean hasTitle(String playerName, int id);
     void setCurrentTitle(String playerName, Integer titleId);
 }

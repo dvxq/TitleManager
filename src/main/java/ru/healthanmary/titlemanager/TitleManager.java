@@ -38,12 +38,8 @@ public final class TitleManager extends JavaPlugin {
             new TitleBoardPlaceholder(playerCache).register();
         }
 
-        getCommand("t1cmd").setExecutor(new t1cmd(storage));
-        getCommand("t2cmd").setExecutor(new t2cmd(playerCache));
-        getCommand("switchdebug").setExecutor(new SwitchDebugCmd(playerCache));
         getCommand("customtitle").setExecutor(new OpenTitleCreationMenuCmd(titleCreationMenuBuilder));
         getCommand("availabletitles").setExecutor(new OpenAvailableTitlesMenuCmd(availableTitlesMenuBuilder));
-        getCommand("gettitleitem").setExecutor(new t3cmd(availableTitlesMenuBuilder, storage));
         getCommand("showtitlemenu").setExecutor(new ShowTitlePageCmd(availableTitlesMenuBuilder));
         getServer().getPluginManager().registerEvents(new Listener(storage, playerCache, menuManager, availableTitlesMenuBuilder), this);
 

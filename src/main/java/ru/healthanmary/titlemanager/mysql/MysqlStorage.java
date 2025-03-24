@@ -130,6 +130,23 @@ public class MysqlStorage implements Storage {
     }
 
     @Override
+    public boolean hasTitle(String playerName, int id) {
+        try (Connection connection = createConnection();
+             PreparedStatement ps = connection.prepareStatement("""
+            SELECT EXISTS(SELECT 1 FROM titles WHERE player_name = ? and id = ?)
+        """)){
+            ps.setString(1, playerName);
+            ps.setInt(2, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getBoolean(1)) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    @Override
     public void setCurrentTitle(String playerName, Integer titleId) {
         try (Connection connection = createConnection();
              PreparedStatement ps = connection.prepareStatement("""

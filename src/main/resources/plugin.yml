@@ -7,10 +7,6 @@ commands:
     aliases: ct
     permission: customtitle.menu
     permission-message: "§cУ вас нет прав"
-  t1cmd:
-  t2cmd:
-  switchdebug:
-  gettitleitem:
   availabletitles:
   showtitlemenu:
 softdepend: ["PlaceholderAPI"]

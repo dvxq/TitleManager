@@ -23,12 +23,11 @@ public class AvailableTitlesMenuBuilder {
     public Inventory getAvailableTitlesMenu(String name, int page) {
 
         HashMap<Integer, List<Title>> splitedMap = getSplitedMap(storage.getArrayOfTitles(name));
+        List<Title> titles = splitedMap.get(page);
         int maxPage = splitedMap.isEmpty() ? 1 : splitedMap.keySet().stream().max(Integer::compareTo).orElse(Integer.MIN_VALUE);
         int minPage = splitedMap.isEmpty() ? 1 : splitedMap.keySet().stream().min(Integer::compareTo).orElse(Integer.MIN_VALUE);
-        System.out.println("splited size: " + splitedMap.size());
-        System.out.println(maxPage + " " + minPage);
 
-        Inventory inventory = Bukkit.createInventory(new AvailableTitlesMenuHolder(null, page, maxPage, minPage),
+        Inventory inventory = Bukkit.createInventory(new AvailableTitlesMenuHolder(null, page, maxPage, minPage, titles),
                 54, "Доступные титулы (" + page + "/" + maxPage + ")");
         String orangeColor = "#E94F08";
         ItemStack purplePane = new ItemStack(Material.MAGENTA_STAINED_GLASS_PANE, 1);
@@ -100,7 +99,6 @@ public class AvailableTitlesMenuBuilder {
             inventory.setItem(53, arrowNext);
         }
 
-        List<Title> titles = splitedMap.get(page);
         List<Integer> availableSlots = new ArrayList<>(Arrays.asList(
                 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25,
                 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43
@@ -114,6 +112,7 @@ public class AvailableTitlesMenuBuilder {
 
         return inventory;
     }
+
     public static HashMap<Integer, List<Title>> getSplitedMap (List<Title> inputArr) {
         HashMap<Integer, List<Title>> map = new HashMap<>();
         int chunkIndex = 1;
