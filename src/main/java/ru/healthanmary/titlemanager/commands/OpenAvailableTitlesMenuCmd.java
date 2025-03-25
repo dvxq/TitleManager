@@ -1,10 +1,13 @@
 package ru.healthanmary.titlemanager.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
+import ru.healthanmary.titlemanager.TitleManager;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
 
 public class OpenAvailableTitlesMenuCmd implements CommandExecutor {
@@ -20,7 +23,14 @@ public class OpenAvailableTitlesMenuCmd implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        player.openInventory(menuBuilder.getAvailableTitlesMenu(player.getName(), 1));
-        return false;
+
+        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+            Inventory availableTitlesMenu = menuBuilder.getAvailableTitlesMenu(player.getName(), 1);
+
+            Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                player.openInventory(availableTitlesMenu);
+            });
+        });
+        return true;
     }
 }

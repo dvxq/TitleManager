@@ -42,7 +42,6 @@ public final class TitleManager extends JavaPlugin {
 
         getCommand("customtitle").setExecutor(new OpenTitleCreationMenuCmd(titleCreationMenuBuilder));
         getCommand("availabletitles").setExecutor(new OpenAvailableTitlesMenuCmd(availableTitlesMenuBuilder));
-        getCommand("showtitlemenu").setExecutor(new ShowTitlePageCmd(availableTitlesMenuBuilder));
         getServer().getPluginManager().registerEvents(new Listener(storage, playerCache, menuManager, availableTitlesMenuBuilder), this);
 
         for (Player player : Bukkit.getOnlinePlayers()) {

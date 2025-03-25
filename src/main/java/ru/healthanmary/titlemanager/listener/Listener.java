@@ -1,6 +1,7 @@
 package ru.healthanmary.titlemanager.listener;
 
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,7 +10,9 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import ru.healthanmary.titlemanager.TitleManager;
 import ru.healthanmary.titlemanager.cache.PlayerTitleCache;
 import ru.healthanmary.titlemanager.mysql.Storage;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
@@ -60,15 +63,22 @@ public class Listener implements org.bukkit.event.Listener {
 
             Title title = titles.get(titleIndex);
             int id = title.getId();
-            if (storage.hasTitle(playerName, id)) {
-                player.closeInventory();
-                storage.setCurrentTitle(playerName, id);
-                playerCache.putTitle(player.getUniqueId(), title);
-                player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно сменили титул на" +
-                        ChatColor.AQUA + ": " + ChatColor.RESET + title.getTitle_text());
-            } else {
-                player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(playerName, holder.getCurrentPage()));
-            }
+            Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+                if (storage.hasTitle(playerName, id)) {
+                    Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                        player.closeInventory();
+                    });
+                    storage.setCurrentTitle(playerName, id);
+                    playerCache.putTitle(player.getUniqueId(), title);
+                    player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно сменили титул на" +
+                            ChatColor.AQUA + ": " + ChatColor.RESET + title.getTitle_text());
+                } else {
+                    Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                        player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(playerName, holder.getCurrentPage()));
+                    });
+                }
+            });
+
         }
     }
     @EventHandler
@@ -106,7 +116,9 @@ public class Listener implements org.bukkit.event.Listener {
             Player player = (Player) e.getWhoClicked();
             player.closeInventory();
             playerCache.clearValue(player.getUniqueId());
-            storage.setCurrentTitle(player.getName(), null);
+            Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+                storage.setCurrentTitle(player.getName(), null);
+            });
             player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно убрали отображение титула");
         }
     }
@@ -130,7 +142,12 @@ public class Listener implements org.bukkit.event.Listener {
             Player player = (Player) e.getWhoClicked();
             switch (e.getSlot()) {
                 case 20: {
-                    player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(), 1));
+                    Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+                        Inventory availableTitlesMenu = availableTitlesMenuBuilder.getAvailableTitlesMenu(player.getName(), 1);
+                        Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                            player.openInventory(availableTitlesMenu);
+                        });
+                    });
                     break;
                 }
                 case 24: {
@@ -144,12 +161,14 @@ public class Listener implements org.bukkit.event.Listener {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         Title title = playerCache.getTitle(uuid);
-        if (title != null) {
-            Integer id = title.getId();
-            storage.setCurrentTitle(player.getName(), id);
-        } else {
-            storage.setCurrentTitle(player.getName(), null);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+            if (title != null) {
+                Integer id = title.getId();
+                storage.setCurrentTitle(player.getName(), id);
+            } else {
+                storage.setCurrentTitle(player.getName(), null);
+            }
+        });
         playerCache.clearValue(uuid);
     }
     public static int getTitleIndex(int slot) {

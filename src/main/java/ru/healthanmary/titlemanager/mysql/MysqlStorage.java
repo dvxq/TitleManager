@@ -5,8 +5,6 @@ import ru.healthanmary.titlemanager.util.Title;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Queue;
 
 public class MysqlStorage implements Storage {
     private String url = "jdbc:mysql://" + Config.MySqlData.HOST + ":" + Config.MySqlData.PORT + "/" + Config.MySqlData.DB_NAME;

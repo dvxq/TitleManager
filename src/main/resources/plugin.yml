@@ -9,5 +9,4 @@ commands:
   availabletitles:
     permission: customtitle.availabletitles
     permission-message: "§cУ вас нет прав"
-  showtitlemenu:
 softdepend: ["PlaceholderAPI"]
