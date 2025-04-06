@@ -7,7 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import ru.healthanmary.titlemanager.mysql.Storage;
-import ru.healthanmary.titlemanager.util.AvailableTitlesMenuHolder;
+import ru.healthanmary.titlemanager.invHolders.AvailableTitlesMenuHolder;
 import ru.healthanmary.titlemanager.util.Title;
 
 import java.time.LocalDateTime;

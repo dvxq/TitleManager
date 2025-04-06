@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -16,8 +17,9 @@ import ru.healthanmary.titlemanager.TitleManager;
 import ru.healthanmary.titlemanager.cache.PlayerTitleCache;
 import ru.healthanmary.titlemanager.mysql.Storage;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
-import ru.healthanmary.titlemanager.util.AvailableTitlesMenuHolder;
-import ru.healthanmary.titlemanager.util.CustomMenuHolder;
+import ru.healthanmary.titlemanager.invHolders.AvailableTitlesMenuHolder;
+import ru.healthanmary.titlemanager.invHolders.CustomMenuHolder;
+import ru.healthanmary.titlemanager.util.CreatingMenuManager;
 import ru.healthanmary.titlemanager.util.MenuManager;
 import ru.healthanmary.titlemanager.util.Title;
 
@@ -25,15 +27,17 @@ import java.util.List;
 import java.util.UUID;
 
 public class Listener implements org.bukkit.event.Listener {
-    private Storage storage;
-    private PlayerTitleCache playerCache;
-    private MenuManager menuManager;
-    private AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
-    public Listener(Storage storage, PlayerTitleCache playerCache, MenuManager menuManager, AvailableTitlesMenuBuilder availableTitlesMenuBuilder) {
+    private final Storage storage;
+    private final PlayerTitleCache playerCache;
+    private final MenuManager menuManager;
+    private final AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
+    private final CreatingMenuManager creatingMenuManager;
+    public Listener(Storage storage, PlayerTitleCache playerCache, MenuManager menuManager, AvailableTitlesMenuBuilder availableTitlesMenuBuilder, CreatingMenuManager creatingMenuManager) {
         this.storage = storage;
         this.playerCache = playerCache;
         this.menuManager = menuManager;
         this.availableTitlesMenuBuilder = availableTitlesMenuBuilder;
+        this.creatingMenuManager = creatingMenuManager;
     }
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent e) {
@@ -45,6 +49,13 @@ public class Listener implements org.bukkit.event.Listener {
 //
 //                }
 //            }
+        }
+    }
+    @EventHandler
+    public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
+        Player player = e.getPlayer();
+        if (creatingMenuManager.containsPlayer(player)) {
+            // open menu for review the title
         }
     }
     @EventHandler

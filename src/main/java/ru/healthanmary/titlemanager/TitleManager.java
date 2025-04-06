@@ -13,6 +13,7 @@ import ru.healthanmary.titlemanager.placeholder.TitleMainPlaceholder;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
 import ru.healthanmary.titlemanager.ui.MainTitleMenuBuilder;
 import ru.healthanmary.titlemanager.placeholder.TitleBoardPlaceholder;
+import ru.healthanmary.titlemanager.util.CreatingMenuManager;
 import ru.healthanmary.titlemanager.util.MenuManager;
 import ru.healthanmary.titlemanager.util.Title;
 
@@ -23,6 +24,7 @@ public final class TitleManager extends JavaPlugin {
     private MenuManager menuManager;
     private MainTitleMenuBuilder titleCreationMenuBuilder;
     private AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
+    private CreatingMenuManager creatingMenuManager;
     @Override
     public void onEnable() {
         instance = this;
@@ -34,6 +36,7 @@ public final class TitleManager extends JavaPlugin {
         menuManager = new MenuManager();
         titleCreationMenuBuilder = new MainTitleMenuBuilder(storage);
         availableTitlesMenuBuilder = new AvailableTitlesMenuBuilder(storage);
+        creatingMenuManager = new CreatingMenuManager();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new TitleBoardPlaceholder(playerCache).register();
@@ -42,7 +45,7 @@ public final class TitleManager extends JavaPlugin {
 
         getCommand("customtitle").setExecutor(new OpenTitleCreationMenuCmd(titleCreationMenuBuilder));
         getCommand("availabletitles").setExecutor(new OpenAvailableTitlesMenuCmd(availableTitlesMenuBuilder));
-        getServer().getPluginManager().registerEvents(new Listener(storage, playerCache, menuManager, availableTitlesMenuBuilder), this);
+        getServer().getPluginManager().registerEvents(new Listener(storage, playerCache, menuManager, availableTitlesMenuBuilder, creatingMenuManager), this);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             Title title = storage.getCurrentTitleByName(player.getName());

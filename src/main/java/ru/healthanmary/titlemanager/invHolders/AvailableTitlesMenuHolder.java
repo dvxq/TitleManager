@@ -1,14 +1,15 @@
-package ru.healthanmary.titlemanager.util;
+package ru.healthanmary.titlemanager.invHolders;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
+import ru.healthanmary.titlemanager.util.Title;
 
 import java.util.List;
 
-public class AvailableTitlesMenuHolder implements InventoryHolder {
+public class AvailableTitlesMenuHolder implements InventoryHolder, TitleMenuHolder {
     private Inventory inventory;
     @Getter
     private int currentPage;

@@ -7,7 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import ru.healthanmary.titlemanager.mysql.Storage;
-import ru.healthanmary.titlemanager.util.CustomMenuHolder;
+import ru.healthanmary.titlemanager.invHolders.CustomMenuHolder;
 
 import java.util.List;
 
