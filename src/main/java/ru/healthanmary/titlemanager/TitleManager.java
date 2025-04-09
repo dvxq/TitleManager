@@ -31,6 +31,7 @@ public final class TitleManager extends JavaPlugin {
         saveDefaultConfig();
         Config.loadConfig(getConfig());
 
+        // test commit to dev brant
         storage = new MysqlStorage();
         playerCache = new PlayerTitleCache();
         menuManager = new MenuManager();

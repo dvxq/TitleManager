@@ -107,15 +107,14 @@ public class MysqlStorage implements Storage {
         }
         return "Неизвестно";
     }
-
     @Override
     public void setPlayerPoints(String playerName, int points) {
-        try (Connection connection = createConnection();
-        PreparedStatement ps = connection.prepareStatement("""
-            INSERT INTO `player-points`(player_name, points) VALUES ()
-        """)){
-
-        }
+//        try (Connection connection = createConnection();
+//        PreparedStatement ps = connection.prepareStatement("""
+//            INSERT INTO `player-points`(player_name, points) VALUES ()
+//        """)){
+//
+//        }
     }
 
     @Override
