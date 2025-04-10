@@ -7,9 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class MysqlStorage implements Storage {
-    private String url = "jdbc:mysql://" + Config.MySqlData.HOST + ":" + Config.MySqlData.PORT + "/" + Config.MySqlData.DB_NAME;
+    private String url = "jdbc:mysql://" + Config.MysqlData.HOST + ":" + Config.MysqlData.PORT + "/" + Config.MysqlData.DB_NAME;
     private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection(url, Config.MySqlData.USERNAME, Config.MySqlData.PASSWORD);
+        return DriverManager.getConnection(url, Config.MysqlData.USERNAME, Config.MysqlData.PASSWORD);
     }
 
     @Override

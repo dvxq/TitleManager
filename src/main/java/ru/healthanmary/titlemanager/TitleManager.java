@@ -13,6 +13,7 @@ import ru.healthanmary.titlemanager.placeholder.TitleMainPlaceholder;
 import ru.healthanmary.titlemanager.ui.AvailableTitlesMenuBuilder;
 import ru.healthanmary.titlemanager.ui.MainTitleMenuBuilder;
 import ru.healthanmary.titlemanager.placeholder.TitleBoardPlaceholder;
+import ru.healthanmary.titlemanager.ui.TitleConfirmationMenuBuilder;
 import ru.healthanmary.titlemanager.util.CreatingMenuManager;
 import ru.healthanmary.titlemanager.util.MenuManager;
 import ru.healthanmary.titlemanager.util.Title;
@@ -25,19 +26,20 @@ public final class TitleManager extends JavaPlugin {
     private MainTitleMenuBuilder titleCreationMenuBuilder;
     private AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
     private CreatingMenuManager creatingMenuManager;
+    private TitleConfirmationMenuBuilder titleConfirmationMenuBuilder;
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
         Config.loadConfig(getConfig());
-
-        // test commit to dev brant
+        
         storage = new MysqlStorage();
         playerCache = new PlayerTitleCache();
         menuManager = new MenuManager();
         titleCreationMenuBuilder = new MainTitleMenuBuilder(storage);
         availableTitlesMenuBuilder = new AvailableTitlesMenuBuilder(storage);
         creatingMenuManager = new CreatingMenuManager();
+        titleConfirmationMenuBuilder = new TitleConfirmationMenuBuilder();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new TitleBoardPlaceholder(playerCache).register();
@@ -46,6 +48,8 @@ public final class TitleManager extends JavaPlugin {
 
         getCommand("customtitle").setExecutor(new OpenTitleCreationMenuCmd(titleCreationMenuBuilder));
         getCommand("availabletitles").setExecutor(new OpenAvailableTitlesMenuCmd(availableTitlesMenuBuilder));
+        getCommand("OpenConfMenu").setExecutor(new OpenConfMenu(titleConfirmationMenuBuilder));
+
         getServer().getPluginManager().registerEvents(new Listener(storage, playerCache, menuManager, availableTitlesMenuBuilder, creatingMenuManager), this);
 
         for (Player player : Bukkit.getOnlinePlayers()) {

@@ -39,18 +39,22 @@ public class Listener implements org.bukkit.event.Listener {
         this.availableTitlesMenuBuilder = availableTitlesMenuBuilder;
         this.creatingMenuManager = creatingMenuManager;
     }
+
+    // prohibits all the clicks
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent e) {
+        if (menuManager.isTitleMenu(e.getInventory())) e.setCancelled(true);
+    }
+
+    // prohibits drag items
+    @EventHandler
+    public void onInventoryDragEvent(InventoryDragEvent e) {
         if (menuManager.isTitleMenu(e.getInventory())) {
             e.setCancelled(true);
-//            Player player = (Player) e.getWhoClicked();
-//            switch (e.getSlot()) {
-//                case 20: {
-//
-//                }
-//            }
         }
     }
+
+    // open review menu after entering the title
     @EventHandler
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
@@ -58,6 +62,8 @@ public class Listener implements org.bukkit.event.Listener {
             // open menu for review the title
         }
     }
+
+    // title choosing functionality
     @EventHandler
     public void onChooseTitle(InventoryClickEvent e) {
         if (e.getClickedInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
@@ -92,6 +98,8 @@ public class Listener implements org.bukkit.event.Listener {
 
         }
     }
+
+    // switch page functionality
     @EventHandler
     public void onSwitchPage(InventoryClickEvent e) {
         if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder) {
@@ -120,6 +128,8 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
     }
+
+    // title reset functionality
     @EventHandler
     public void onButtonClick(InventoryClickEvent e) {
         if (e.getInventory().getHolder() instanceof AvailableTitlesMenuHolder && e.getClickedInventory().getType() == InventoryType.CHEST
@@ -133,13 +143,8 @@ public class Listener implements org.bukkit.event.Listener {
             player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно убрали отображение титула");
         }
     }
-    @EventHandler
-    public void onInventoryDragEvent(InventoryDragEvent e) {
-        if (menuManager.isTitleMenu(e.getInventory())) {
-            e.setCancelled(true);
-        }
-    }
 
+    // handles joining and then caches the title
     @EventHandler
     public void on(PlayerJoinEvent e) {
         Player player = e.getPlayer();
@@ -147,6 +152,7 @@ public class Listener implements org.bukkit.event.Listener {
         playerCache.putTitle(player.getUniqueId(), title);
     }
 
+    // main menu functionality
     @EventHandler
     public void onInventoryClickEvent2(InventoryClickEvent e) {
         if (e.getInventory().getHolder() instanceof CustomMenuHolder && e.getClickedInventory().getType() == InventoryType.CHEST) {
@@ -167,6 +173,8 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
     }
+
+    // handles quiting and caches the title
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         Player player = e.getPlayer();
