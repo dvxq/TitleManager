@@ -45,6 +45,7 @@ public class Config {
         public static List<String> limeWoolLore;
         public static List<String> redWoolLore;
     }
+    //
     public static class MysqlData {
         public static String USERNAME;
         public static String PASSWORD;
