@@ -1,0 +1,15 @@
+name: TitleManager
+version: '${version}'
+main: ru.healthanmary.titlemanager.TitleManager
+api-version: '1.16'
+commands:
+  customtitle:
+    permission: customtitle.menu
+    permission-message: "§cУ вас нет прав"
+  availabletitles:
+    permission: customtitle.availabletitles
+    permission-message: "§cУ вас нет прав"
+  titleadmin:
+    aliases: ta
+    permission: customtitle.admin
+softdepend: ["PlaceholderAPI"]

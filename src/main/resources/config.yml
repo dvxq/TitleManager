@@ -1,0 +1,13 @@
+example-item:
+  slot: 22
+  material: name_tag
+  amount: 1
+  display-name: '§6▶ §fИтоговые варианты отображения:'
+  lore:
+    - ' '
+    - '§7 - §fВ табе:'
+    - '§r %groupmeta_tabprefix% §f%player_name% {title}'
+    - ' '
+    - '§7 - §fВ чате:'
+    - '§6  ɢ §7|§r%groupmeta_chatprefix% §f%player_name% {title}§b: §f%groupcolor_color%Hello
+    world!'
