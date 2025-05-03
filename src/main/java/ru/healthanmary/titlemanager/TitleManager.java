@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.healthanmary.titlemanager.cache.RejectCacheManager;
 import ru.healthanmary.titlemanager.cache.TitleCacheManager;
 import ru.healthanmary.titlemanager.commands.menus.OpenAvailableTitlesMenuCmd;
 import ru.healthanmary.titlemanager.commands.menus.OpenMainTitleMenuCmd;
@@ -42,6 +43,7 @@ public final class TitleManager extends JavaPlugin {
     private MainConfigParser mainConfigParser;
     private PeekMenuBuilder peekMenuBuilder;
     private ReviewMenuBuilder reviewMenuBuilder;
+    private RejectCacheManager rejectCacheManager;
     @Override
     public void onEnable() {
         instance = this;
@@ -57,6 +59,7 @@ public final class TitleManager extends JavaPlugin {
         titleCreationMenuBuilder = new MainTitleMenuBuilder(storage);
         availableTitlesMenuBuilder = new AvailableTitlesMenuBuilder(storage);
         reviewMenuBuilder = new ReviewMenuBuilder(storage);
+        rejectCacheManager = new RejectCacheManager(storage);
         titleConfirmationMenuBuilder = new TitleConfirmationMenuBuilder(mainConfigParser);
         creatingMenuService = new CreatingMenuService(titleConfirmationMenuBuilder);
         menuManager = new MenuManager();
@@ -78,7 +81,8 @@ public final class TitleManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(creatingMenuService, this);
         getServer().getPluginManager().registerEvents(new PeekMenuListener(peekMenuBuilder), this);
         getServer().getPluginManager().registerEvents(new ConfirmationManager(creatingMenuService, storage), this);
-        getServer().getPluginManager().registerEvents(new ReviewMenuListener(storage, reviewMenuBuilder), this);
+        getServer().getPluginManager().registerEvents(new ReviewMenuListener(storage, reviewMenuBuilder, rejectCacheManager), this);
+        getServer().getPluginManager().registerEvents(rejectCacheManager, this);
         getServer().getPluginManager().registerEvents(cacheManager, this);
 
         // set the titles

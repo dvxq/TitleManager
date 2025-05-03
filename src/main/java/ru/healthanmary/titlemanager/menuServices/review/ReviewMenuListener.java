@@ -8,22 +8,26 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import ru.healthanmary.titlemanager.TitleManager;
+import ru.healthanmary.titlemanager.cache.RejectCacheManager;
 import ru.healthanmary.titlemanager.mysql.Storage;
 import ru.healthanmary.titlemanager.util.Title;
 import ru.healthanmary.titlemanager.util.TitleUtil;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ReviewMenuListener implements Listener {
     private final Storage storage;
     private final ReviewMenuBuilder reviewMenuBuilder;
+    private final RejectCacheManager rejectCacheManager;
 
-    public ReviewMenuListener(Storage storage, ReviewMenuBuilder reviewMenuBuilder) {
+    public ReviewMenuListener(Storage storage, ReviewMenuBuilder reviewMenuBuilder, RejectCacheManager rejectCacheManager) {
         this.storage = storage;
         this.reviewMenuBuilder = reviewMenuBuilder;
+        this.rejectCacheManager = rejectCacheManager;
     }
 
     @EventHandler
@@ -78,9 +82,8 @@ public class ReviewMenuListener implements Listener {
             Title title = titles.get(titleIndex);
             int titleId = title.getId();
             switch (click) {
-                case DROP: {
-                    // display information
-                    player.sendMessage(title.getTitleText());
+                case CONTROL_DROP: {
+                    sendTitleInfo(player, title);
                     break;
                 }
                 case SHIFT_LEFT: {
@@ -97,11 +100,32 @@ public class ReviewMenuListener implements Listener {
                     break;
                 }
                 case SHIFT_RIGHT: {
-
+                    rejectCacheManager.add(player, title);
+                    player.sendMessage("§d▶ §fНапишите в чат причину §cотклонения §fтитула или \"-\", чтобы не указывать ");
+                    player.closeInventory();
                     break;
                 }
             }
         }
+    }
+    private void sendTitleInfo(Player player, Title title) {
+        player.sendMessage("§3§m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        player.sendMessage("§6§lТитул: §r" + title.getTitleText());
+        player.sendMessage("§7Игрок: §9" + title.getPlayerName());
+        player.sendMessage("§7Статус: " + formatState(title.getState()));
+        player.sendMessage("§7Дата заявки: §f" + formatTimestamp(title.getRequestDate()));
+        player.sendMessage("§3§m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    }
+    private String formatTimestamp(Timestamp timestamp) {
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(timestamp);
+    }
+
+    private String formatState(Title.State state) {
+        return switch (state) {
+            case UNDER_REVIEW -> "§eОжидает";
+            case ACCEPTED -> "§2Одобрен";
+            case REJECTED -> "§4Отклонён";
+        };
     }
     private void reloadPage(ReviewMenuHolder holder, Player player, int currentPage) {
         Bukkit.getScheduler().runTask(TitleManager.instance, () -> {

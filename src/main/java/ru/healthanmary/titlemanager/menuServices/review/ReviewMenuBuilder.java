@@ -44,7 +44,6 @@ public class ReviewMenuBuilder {
         ItemMeta arrowNextItemMeta = arrowNext.getItemMeta();
         arrowNextItemMeta.setDisplayName(ChatColor.WHITE + "Следующая страница " + ChatColor.of(orangeColor) + "▶");
         arrowNext.setItemMeta(arrowNextItemMeta);
-
         ItemStack arrowPrevious = new ItemStack(Material.ARROW, 1);
         ItemMeta arrowPreviousItemMeta = arrowPrevious.getItemMeta();
         arrowPreviousItemMeta.setDisplayName(ChatColor.of(orangeColor) + "◀ " + ChatColor.WHITE + "Предыдущая страница ");
