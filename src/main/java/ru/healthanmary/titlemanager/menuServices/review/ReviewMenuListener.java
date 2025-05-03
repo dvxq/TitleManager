@@ -54,7 +54,6 @@ public class ReviewMenuListener implements Listener {
                 case 53: {
                     if (currentPage < maxPage) {
                         player.openInventory(reviewMenuBuilder.getReviewMenu(currentPage+1));
-
                     }
                     break;
                 }
@@ -100,12 +99,13 @@ public class ReviewMenuListener implements Listener {
                     break;
                 }
                 case SHIFT_RIGHT: {
+                    player.closeInventory();
                     rejectCacheManager.add(player, title);
                     player.sendMessage("§d▶ §fНапишите в чат причину §cотклонения §fтитула или \"-\", чтобы не указывать ");
-                    player.closeInventory();
                     break;
                 }
             }
+            e.setCancelled(true);
         }
     }
     private void sendTitleInfo(Player player, Title title) {

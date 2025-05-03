@@ -45,8 +45,5 @@ public class RejectCacheManager implements Listener {
         storage.reviewTitle(id, player.getName(), comment, false);
         player.sendMessage("§d▶ §fВы успешно §cотклонили §fтитул " + title.getTitleText() + ". §bID: " + id);
         remove(player);
-        Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
-            player.performCommand("ta review");
-        });
     }
 }
