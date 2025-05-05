@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import ru.healthanmary.titlemanager.TitleManager;
-import ru.healthanmary.titlemanager.menuServices.availableTitles.AvailableTitlesMenuBuilder;
+import ru.healthanmary.titlemanager.menus.availableTitles.AvailableTitlesMenuBuilder;
 
 public class OpenAvailableTitlesMenuCmd implements CommandExecutor {
     private final AvailableTitlesMenuBuilder menuBuilder;

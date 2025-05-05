@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import ru.healthanmary.titlemanager.TitleManager;
-import ru.healthanmary.titlemanager.menuServices.main.MainTitleMenuBuilder;
+import ru.healthanmary.titlemanager.menus.main.MainTitleMenuBuilder;
 
 public class OpenMainTitleMenuCmd implements CommandExecutor {
     private final MainTitleMenuBuilder titleMenuBuilder;

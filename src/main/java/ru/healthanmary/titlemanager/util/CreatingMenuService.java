@@ -9,8 +9,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import ru.healthanmary.titlemanager.TitleManager;
-import ru.healthanmary.titlemanager.menuServices.titleConfirmation.TitleConfirmationMenuHolder;
-import ru.healthanmary.titlemanager.menuServices.titleConfirmation.TitleConfirmationMenuBuilder;
+import ru.healthanmary.titlemanager.menus.titleConfirmation.TitleConfirmationMenuHolder;
+import ru.healthanmary.titlemanager.menus.titleConfirmation.TitleConfirmationMenuBuilder;
 
 import java.util.HashMap;
 import java.util.Map;

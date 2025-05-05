@@ -3,7 +3,7 @@ package ru.healthanmary.titlemanager.util;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import ru.healthanmary.titlemanager.menuServices.MenuManager;
+import ru.healthanmary.titlemanager.menus.MenuManager;
 
 public class MainClickListener implements org.bukkit.event.Listener {
     private final MenuManager menuManager;;
