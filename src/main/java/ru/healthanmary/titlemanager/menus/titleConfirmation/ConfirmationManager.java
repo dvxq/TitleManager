@@ -9,14 +9,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import ru.healthanmary.titlemanager.TitleManager;
 import ru.healthanmary.titlemanager.mysql.Storage;
-import ru.healthanmary.titlemanager.util.CreatingMenuService;
+import ru.healthanmary.titlemanager.util.CreationMenuManager;
 
 public class ConfirmationManager implements Listener {
-    private final CreatingMenuService creatingMenuService;
+    private final CreationMenuManager creationMenuManager;
     private final Storage storage;
 
-    public ConfirmationManager(CreatingMenuService creatingMenuService, Storage storage) {
-        this.creatingMenuService = creatingMenuService;
+    public ConfirmationManager(CreationMenuManager creationMenuManager, Storage storage) {
+        this.creationMenuManager = creationMenuManager;
         this.storage = storage;
     }
 
@@ -29,7 +29,7 @@ public class ConfirmationManager implements Listener {
         switch (e.getSlot()) {
             // send to db
             case 29: {
-                creatingMenuService.removePendingPlayer(player);
+                creationMenuManager.removePendingPlayer(player);
                 player.closeInventory();
                 Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
                     Integer playerPoints = Integer.valueOf(storage.getPlayerPoints(player.getName()));
@@ -48,14 +48,14 @@ public class ConfirmationManager implements Listener {
             }
             // reject
             case 33: {
-                creatingMenuService.removePendingPlayer(player);
+                creationMenuManager.removePendingPlayer(player);
                 player.closeInventory();
                 player.sendMessage(ChatColor.RED + "▶ " + ChatColor.WHITE + "Вы отменили создание титула");
                 break;
             }
             // restart the process
             case 40: {
-                creatingMenuService.restartCreating(player);
+                creationMenuManager.restartCreating(player);
                 break;
             }
         }

@@ -13,7 +13,7 @@ import ru.healthanmary.titlemanager.util.TitleUtil;
 import java.util.*;
 
 public class AvailableTitlesMenuBuilder {
-    private Storage storage;
+    private final Storage storage;
 
     public AvailableTitlesMenuBuilder(Storage storage) {
         this.storage = storage;

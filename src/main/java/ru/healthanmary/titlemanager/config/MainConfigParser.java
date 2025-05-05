@@ -16,6 +16,7 @@ public class MainConfigParser extends AbstractConfig{
     }
     private ItemStack exampleItem;
     private Integer exampleItemSlot;
+
     @Override
     void parse() {
         ConfigurationSection section = getConfig().getConfigurationSection("example-item");

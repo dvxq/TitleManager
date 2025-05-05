@@ -15,11 +15,11 @@ import ru.healthanmary.titlemanager.menus.titleConfirmation.TitleConfirmationMen
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreatingMenuService implements Listener {
+public class CreationMenuManager implements Listener {
     private Map<Player, Integer> pendingPlayers = new HashMap<>();
     private final TitleConfirmationMenuBuilder titleConfirmationMenuBuilder;
 
-    public CreatingMenuService(TitleConfirmationMenuBuilder titleConfirmationMenuBuilder) {
+    public CreationMenuManager(TitleConfirmationMenuBuilder titleConfirmationMenuBuilder) {
         this.titleConfirmationMenuBuilder = titleConfirmationMenuBuilder;
     }
 

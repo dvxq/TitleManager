@@ -27,7 +27,7 @@ import ru.healthanmary.titlemanager.placeholder.MainPlaceholder;
 import ru.healthanmary.titlemanager.menus.availableTitles.AvailableTitlesMenuBuilder;
 import ru.healthanmary.titlemanager.menus.main.MainTitleMenuBuilder;
 import ru.healthanmary.titlemanager.menus.titleConfirmation.TitleConfirmationMenuBuilder;
-import ru.healthanmary.titlemanager.util.CreatingMenuService;
+import ru.healthanmary.titlemanager.util.CreationMenuManager;
 import ru.healthanmary.titlemanager.menus.MenuManager;
 
 public final class TitleManager extends JavaPlugin {
@@ -37,7 +37,7 @@ public final class TitleManager extends JavaPlugin {
     private MenuManager menuManager;
     private MainTitleMenuBuilder titleCreationMenuBuilder;
     private AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
-    private CreatingMenuService creatingMenuService;
+    private CreationMenuManager creationMenuManager;
     private TitleConfirmationMenuBuilder titleConfirmationMenuBuilder;
     private MysqlConfigParser mysqlConfigParser;
     private MainConfigParser mainConfigParser;
@@ -61,7 +61,7 @@ public final class TitleManager extends JavaPlugin {
         reviewMenuBuilder = new ReviewMenuBuilder(storage);
         rejectCacheManager = new RejectCacheManager(storage);
         titleConfirmationMenuBuilder = new TitleConfirmationMenuBuilder(mainConfigParser);
-        creatingMenuService = new CreatingMenuService(titleConfirmationMenuBuilder);
+        creationMenuManager = new CreationMenuManager(titleConfirmationMenuBuilder);
         menuManager = new MenuManager();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -77,10 +77,10 @@ public final class TitleManager extends JavaPlugin {
         // register listeners
         getServer().getPluginManager().registerEvents(new MainClickListener(menuManager), this);
         getServer().getPluginManager().registerEvents(new AvailableTitlesMenuListener(availableTitlesMenuBuilder, cacheManager, storage), this);
-        getServer().getPluginManager().registerEvents(new MainMenuListener(storage, creatingMenuService), this);
-        getServer().getPluginManager().registerEvents(creatingMenuService, this);
+        getServer().getPluginManager().registerEvents(new MainMenuListener(storage, creationMenuManager), this);
+        getServer().getPluginManager().registerEvents(creationMenuManager, this);
         getServer().getPluginManager().registerEvents(new PeekMenuListener(peekMenuBuilder), this);
-        getServer().getPluginManager().registerEvents(new ConfirmationManager(creatingMenuService, storage), this);
+        getServer().getPluginManager().registerEvents(new ConfirmationManager(creationMenuManager, storage), this);
         getServer().getPluginManager().registerEvents(new ReviewMenuListener(storage, reviewMenuBuilder, rejectCacheManager), this);
         getServer().getPluginManager().registerEvents(rejectCacheManager, this);
         getServer().getPluginManager().registerEvents(cacheManager, this);

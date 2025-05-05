@@ -10,15 +10,15 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import ru.healthanmary.titlemanager.TitleManager;
 import ru.healthanmary.titlemanager.mysql.Storage;
-import ru.healthanmary.titlemanager.util.CreatingMenuService;
+import ru.healthanmary.titlemanager.util.CreationMenuManager;
 
 public class MainMenuListener implements Listener {
     private final Storage storage;
-    private final CreatingMenuService creatingMenuService;
+    private final CreationMenuManager creationMenuManager;
 
-    public MainMenuListener(Storage storage, CreatingMenuService creatingMenuService) {
+    public MainMenuListener(Storage storage, CreationMenuManager creationMenuManager) {
         this.storage = storage;
-        this.creatingMenuService = creatingMenuService;
+        this.creationMenuManager = creationMenuManager;
     }
 
     // main menu functionality
@@ -40,7 +40,7 @@ public class MainMenuListener implements Listener {
                     if (playerPoints > 0) {
                         Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
                             player.closeInventory();
-                            creatingMenuService.addPendingPlayer(player);
+                            creationMenuManager.addPendingPlayer(player);
                         });
                     } else {
                         Bukkit.getScheduler().runTask(TitleManager.instance, () -> {

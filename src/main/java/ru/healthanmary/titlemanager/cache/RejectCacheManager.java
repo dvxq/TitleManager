@@ -25,6 +25,7 @@ public class RejectCacheManager implements Listener {
     public boolean isPending(Player player) {
         return pending.containsKey(player);
     }
+
     @EventHandler
     public void onAsyncChatEvent(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();

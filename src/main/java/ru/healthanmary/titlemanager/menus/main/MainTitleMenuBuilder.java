@@ -12,7 +12,6 @@ import java.util.List;
 
 public class MainTitleMenuBuilder {
     private final Storage storage;
-
     public MainTitleMenuBuilder(Storage storage) {
         this.storage = storage;
     }
