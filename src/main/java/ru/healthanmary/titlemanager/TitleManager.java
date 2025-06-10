@@ -85,7 +85,7 @@ public final class TitleManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(rejectCacheManager, this);
         getServer().getPluginManager().registerEvents(cacheManager, this);
 
-        // set the titles
+        // set titles
         for (Player player : Bukkit.getOnlinePlayers()) {
             cacheManager.processPlayer(player);
         }
