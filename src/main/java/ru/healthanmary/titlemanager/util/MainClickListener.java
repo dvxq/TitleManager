@@ -6,10 +6,9 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import ru.healthanmary.titlemanager.menus.MenuManager;
 
 public class MainClickListener implements org.bukkit.event.Listener {
-    private final MenuManager menuManager;;
+    private final MenuManager menuManager;
 
     public MainClickListener(MenuManager menuManager) {
-
         this.menuManager = menuManager;
     }
 

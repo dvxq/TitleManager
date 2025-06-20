@@ -7,9 +7,11 @@ import ru.healthanmary.titlemanager.mysql.Storage;
 
 public class SetPointsCommand implements SubCommand{
     private final Storage storage;
+    private final TitleManager titleManager;
 
-    public SetPointsCommand(Storage storage) {
+    public SetPointsCommand(Storage storage, TitleManager titleManager) {
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class SetPointsCommand implements SubCommand{
             return;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             try {
                 String targetName = args[1];
                 Integer points = Integer.parseInt(args[2]);

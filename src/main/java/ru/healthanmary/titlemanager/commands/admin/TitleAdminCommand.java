@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import ru.healthanmary.titlemanager.TitleManager;
 import ru.healthanmary.titlemanager.menus.peek.PeekMenuBuilder;
 import ru.healthanmary.titlemanager.menus.review.ReviewMenuBuilder;
 import ru.healthanmary.titlemanager.mysql.Storage;
@@ -13,14 +14,16 @@ import java.util.Map;
 
 public class TitleAdminCommand implements CommandExecutor {
     private final Map<String, SubCommand> subCommands = new HashMap<>();
-    public TitleAdminCommand(Storage storage, PeekMenuBuilder peekMenuBuilder, ReviewMenuBuilder reviewMenuBuilder) {
-        subCommands.put("take", new TakePointsCommand(storage));
-        subCommands.put("reset", new ResetPointsCommand(storage));
-        subCommands.put("get", new GetPointsCommand(storage));
-        subCommands.put("set", new SetPointsCommand(storage));
-        subCommands.put("give", new GivePointsCommand(storage));
-        subCommands.put("lookup", new LookupCommand(storage));
-        subCommands.put("change", new ChangeCommand(storage));
+    private final TitleManager titleManager;
+    public TitleAdminCommand(Storage storage, PeekMenuBuilder peekMenuBuilder, ReviewMenuBuilder reviewMenuBuilder, TitleManager titleManager) {
+        this.titleManager = titleManager;
+        subCommands.put("take", new TakePointsCommand(storage, titleManager));
+        subCommands.put("reset", new ResetPointsCommand(storage, titleManager));
+        subCommands.put("get", new GetPointsCommand(storage, titleManager));
+        subCommands.put("set", new SetPointsCommand(storage, titleManager));
+        subCommands.put("give", new GivePointsCommand(storage, titleManager));
+        subCommands.put("lookup", new LookupCommand(storage, titleManager));
+        subCommands.put("change", new ChangeCommand(storage, titleManager));
         subCommands.put("review", new ReviewCommand(reviewMenuBuilder));
         subCommands.put("peek", new PeekCommand(peekMenuBuilder));
     }

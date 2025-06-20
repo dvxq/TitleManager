@@ -12,9 +12,11 @@ import ru.healthanmary.titlemanager.menus.main.MainTitleMenuBuilder;
 
 public class OpenMainTitleMenuCmd implements CommandExecutor {
     private final MainTitleMenuBuilder titleMenuBuilder;
+    private final TitleManager titleManager;
 
-    public OpenMainTitleMenuCmd(MainTitleMenuBuilder menuBuilder) {
+    public OpenMainTitleMenuCmd(MainTitleMenuBuilder menuBuilder, TitleManager titleManager) {
         this.titleMenuBuilder = menuBuilder;
+        this.titleManager = titleManager;
     }
 
     @Override
@@ -25,9 +27,9 @@ public class OpenMainTitleMenuCmd implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             Inventory titleCreationMenu = titleMenuBuilder.getTitleCreationMenu(player.getName());
-            Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+            Bukkit.getScheduler().runTask(titleManager, () -> {
                 player.openInventory(titleCreationMenu);
             });
         });

@@ -54,7 +54,7 @@ public class TitleUtil {
 
         DateTimeFormatter formatter;
         Timestamp requestDate = title.getRequestDate();
-        Timestamp reviewDate = title.getReviewtDate();
+        Timestamp reviewDate = title.getReviewDate();
         formatter = (isForAdmin) ? DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy")
                 : DateTimeFormatter.ofPattern("dd MMMM yyyy г.");
         String formattedRequestDate = (requestDate != null)

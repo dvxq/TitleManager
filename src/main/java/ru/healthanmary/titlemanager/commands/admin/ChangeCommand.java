@@ -8,9 +8,10 @@ import ru.healthanmary.titlemanager.util.Title;
 
 public class ChangeCommand implements SubCommand{
     private final Storage storage;
-
-    public ChangeCommand(Storage storage) {
+    private final TitleManager titleManager;
+    public ChangeCommand(Storage storage, TitleManager titleManager) {
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     @Override
@@ -23,7 +24,7 @@ public class ChangeCommand implements SubCommand{
         try {
             Integer titleId = Integer.parseInt(args[1]);
             Title.State state = Title.State.valueOf(args[2]);
-            Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
                 if (storage.getTitleById(titleId) == null) {
                     sender.sendMessage("§d▶ §fТитул с §bID: " + titleId + " §fне найден");
                     return;

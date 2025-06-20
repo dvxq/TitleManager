@@ -12,8 +12,10 @@ import ru.healthanmary.titlemanager.menus.availableTitles.AvailableTitlesMenuBui
 
 public class OpenAvailableTitlesMenuCmd implements CommandExecutor {
     private final AvailableTitlesMenuBuilder menuBuilder;
-    public OpenAvailableTitlesMenuCmd(AvailableTitlesMenuBuilder menuBuilder) {
+    private final TitleManager titleManager;
+    public OpenAvailableTitlesMenuCmd(AvailableTitlesMenuBuilder menuBuilder, TitleManager titleManager) {
         this.menuBuilder = menuBuilder;
+        this.titleManager = titleManager;
     }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -24,10 +26,10 @@ public class OpenAvailableTitlesMenuCmd implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             Inventory availableTitlesMenu = menuBuilder.getAvailableTitlesMenu(player.getName(), 1);
 
-            Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+            Bukkit.getScheduler().runTask(titleManager, () -> {
                 player.openInventory(availableTitlesMenu);
             });
         });

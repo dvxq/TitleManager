@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class RejectCacheManager implements Listener {
     private final Storage storage;
     private final HashMap<Player, Title> pending = new HashMap<>();
-
     public RejectCacheManager(Storage storage) {
         this.storage = storage;
     }

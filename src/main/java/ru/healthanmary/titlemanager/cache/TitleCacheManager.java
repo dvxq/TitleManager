@@ -15,10 +15,12 @@ import java.util.UUID;
 
 public class TitleCacheManager implements Listener {
     private final Storage storage;
+    private final TitleManager titleManager;
     private final HashMap<UUID, Title> currentPlayersTitles = new HashMap<>();
 
-    public TitleCacheManager(Storage storage) {
+    public TitleCacheManager(Storage storage, TitleManager titleManager) {
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     public void putTitle(UUID uuid, Title title) {
@@ -33,7 +35,7 @@ public class TitleCacheManager implements Listener {
 
     // caches the title
     public void processPlayer(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             UUID uuid = player.getUniqueId();
             Title title = storage.getCurrentTitleByName(player.getName());
             if (title == null) {
@@ -60,7 +62,7 @@ public class TitleCacheManager implements Listener {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         Title title = getTitle(uuid);
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             if (title != null) {
                 if (title.getState() == Title.State.ACCEPTED) {
                     putTitle(player.getUniqueId(), title);

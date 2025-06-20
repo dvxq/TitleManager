@@ -7,9 +7,11 @@ import ru.healthanmary.titlemanager.mysql.Storage;
 
 public class ResetPointsCommand implements SubCommand{
     private final Storage storage;
+    private final TitleManager titleManager;
 
-    public ResetPointsCommand(Storage storage) {
+    public ResetPointsCommand(Storage storage, TitleManager titleManager) {
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class ResetPointsCommand implements SubCommand{
             return;
         }
         String targetName = args[1];
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             storage.resetPlayerPoints(targetName);
             sender.sendMessage("§d▶ §fУ игрока §a" + targetName + " §fбыли обнулены жетоны");
         });

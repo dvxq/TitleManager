@@ -360,6 +360,15 @@ public class MysqlStorage implements Storage {
         String reviewAdmin = rs.getString("review_admin");
         String adminComment = rs.getString("admin_comment");
         Title.State state = Title.State.valueOf(rs.getString("state"));
-        return new Title(id, titleText, playerNameDb, requestDate, reviewDate, reviewAdmin, adminComment, state);
+        return Title.builder()
+                .id(id)
+                .titleText(titleText)
+                .playerName(playerNameDb)
+                .requestDate(requestDate)
+                .reviewDate(reviewDate)
+                .reviewAdmin(reviewAdmin)
+                .adminComment(adminComment)
+                .state(state)
+                .build();
     }
 }

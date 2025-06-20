@@ -1,18 +1,18 @@
 package ru.healthanmary.titlemanager.util;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.sql.Timestamp;
 
-@AllArgsConstructor @Getter
+@Builder
+@Getter
 public class Title {
     public enum State {
         REJECTED("REJECTED"),
         ACCEPTED("ACCEPTED"),
         UNDER_REVIEW("UNDER_REVIEW");
         private final String state;
-
         State(String state) {
             this.state = state;
         }
@@ -21,7 +21,7 @@ public class Title {
     private String titleText;
     private String playerName;
     private Timestamp requestDate;
-    private Timestamp reviewtDate;
+    private Timestamp reviewDate;
     private String reviewAdmin;
     private String adminComment;
     private State state;

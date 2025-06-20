@@ -7,9 +7,10 @@ import ru.healthanmary.titlemanager.mysql.Storage;
 
 public class GetPointsCommand implements SubCommand{
     private final Storage storage;
-
-    public GetPointsCommand(Storage storage) {
+    private final TitleManager titleManager;
+    public GetPointsCommand(Storage storage, TitleManager titleManager) {
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     @Override
@@ -20,7 +21,7 @@ public class GetPointsCommand implements SubCommand{
         }
 
         String targetName = args[1];
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             String playerPoints = storage.getPlayerPoints(targetName);
             sender.sendMessage("§d▶ §fИгрок §a" + targetName + " §fимеет §e" + playerPoints + " жетонов");
         });

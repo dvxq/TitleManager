@@ -14,10 +14,12 @@ import ru.healthanmary.titlemanager.util.CreationMenuManager;
 public class ConfirmationManager implements Listener {
     private final CreationMenuManager creationMenuManager;
     private final Storage storage;
+    private final TitleManager titleManager;
 
-    public ConfirmationManager(CreationMenuManager creationMenuManager, Storage storage) {
+    public ConfirmationManager(CreationMenuManager creationMenuManager, Storage storage, TitleManager titleManager) {
         this.creationMenuManager = creationMenuManager;
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     @EventHandler
@@ -31,10 +33,10 @@ public class ConfirmationManager implements Listener {
             case 29: {
                 creationMenuManager.removePendingPlayer(player);
                 player.closeInventory();
-                Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+                Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
                     Integer playerPoints = Integer.valueOf(storage.getPlayerPoints(player.getName()));
                     if (playerPoints <= 0) {
-                        Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                        Bukkit.getScheduler().runTask(titleManager, () -> {
                             player.sendMessage(ChatColor.RED + "▶ " + ChatColor.WHITE + "У вас недостаточно жетонов");
                         });
                     } else {

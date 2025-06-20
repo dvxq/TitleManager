@@ -23,11 +23,13 @@ public class ReviewMenuListener implements Listener {
     private final Storage storage;
     private final ReviewMenuBuilder reviewMenuBuilder;
     private final RejectCacheManager rejectCacheManager;
-
-    public ReviewMenuListener(Storage storage, ReviewMenuBuilder reviewMenuBuilder, RejectCacheManager rejectCacheManager) {
+    private final TitleManager titleManager;
+    
+    public ReviewMenuListener(Storage storage, ReviewMenuBuilder reviewMenuBuilder, RejectCacheManager rejectCacheManager, TitleManager titleManager) {
         this.storage = storage;
         this.reviewMenuBuilder = reviewMenuBuilder;
         this.rejectCacheManager = rejectCacheManager;
+        this.titleManager = titleManager;
     }
 
     @EventHandler
@@ -86,7 +88,7 @@ public class ReviewMenuListener implements Listener {
                     break;
                 }
                 case SHIFT_LEFT: {
-                    Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+                    Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
                         if (storage.getTitleState(titleId) == Title.State.UNDER_REVIEW) {
                             storage.reviewTitle(titleId, player.getName(), null, true);
                             player.sendMessage("§d▶ §fВы успешно приняли титул " + title.getTitleText() + ". §bID: " + title.getId());
@@ -128,7 +130,7 @@ public class ReviewMenuListener implements Listener {
         };
     }
     private void reloadPage(ReviewMenuHolder holder, Player player, int currentPage) {
-        Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTask(titleManager, () -> {
             if (currentPage <= holder.getMaxPage()) {
                 player.openInventory(reviewMenuBuilder.getReviewMenu(currentPage));
             } else {

@@ -7,9 +7,11 @@ import ru.healthanmary.titlemanager.mysql.Storage;
 
 public class TakePointsCommand implements SubCommand{
     private final Storage storage;
+    private final TitleManager titleManager;
 
-    public TakePointsCommand(Storage storage) {
+    public TakePointsCommand(Storage storage, TitleManager titleManager) {
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class TakePointsCommand implements SubCommand{
             return;
         }
         String targetName = args[1];
-        Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
             try {
                 Integer points = Integer.parseInt(args[2]);
                 storage.takePlayerPoints(targetName, points);

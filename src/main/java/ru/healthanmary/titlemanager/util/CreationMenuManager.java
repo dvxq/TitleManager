@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -18,14 +19,16 @@ import java.util.Map;
 public class CreationMenuManager implements Listener {
     private Map<Player, Integer> pendingPlayers = new HashMap<>();
     private final TitleConfirmationMenuBuilder titleConfirmationMenuBuilder;
+    private final TitleManager titleManager;
 
-    public CreationMenuManager(TitleConfirmationMenuBuilder titleConfirmationMenuBuilder) {
+    public CreationMenuManager(TitleConfirmationMenuBuilder titleConfirmationMenuBuilder, TitleManager titleManager) {
         this.titleConfirmationMenuBuilder = titleConfirmationMenuBuilder;
+        this.titleManager = titleManager;
     }
 
     public void addPendingPlayer(Player player) {
         if (!pendingPlayers.containsKey(player) || (pendingPlayers.get(player) == null)) {
-            int taskId = Bukkit.getScheduler().runTaskTimer(TitleManager.instance, () -> {
+            int taskId = Bukkit.getScheduler().runTaskTimer(titleManager, () -> {
                 player.sendMessage(" ");
                 player.sendMessage(ChatColor.AQUA + "▶ " + ChatColor.WHITE + "Впишите в чат желаемый титул");
                 player.sendMessage(" ");
@@ -36,7 +39,7 @@ public class CreationMenuManager implements Listener {
     public void restartCreating(Player player) {
         pendingPlayers.remove(player);
         player.closeInventory();
-        int taskId = Bukkit.getScheduler().runTaskTimer(TitleManager.instance, () -> {
+        int taskId = Bukkit.getScheduler().runTaskTimer(titleManager, () -> {
             player.sendMessage(" ");
             player.sendMessage(ChatColor.AQUA + "▶ " + ChatColor.WHITE + "Впишите в чат желаемый титул");
             player.sendMessage(" ");
@@ -88,7 +91,7 @@ public class CreationMenuManager implements Listener {
         Player player = e.getPlayer();
         if (isPending(player)) {
             e.setCancelled(true);
-            Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+            Bukkit.getScheduler().runTask(titleManager, () -> {
                 player.openInventory(titleConfirmationMenuBuilder.getConfirmationMenu(player, e.getMessage()));
             });
             stopTimer(player);

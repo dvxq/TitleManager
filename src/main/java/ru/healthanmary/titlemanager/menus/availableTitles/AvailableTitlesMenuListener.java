@@ -21,14 +21,15 @@ import java.util.List;
 public class AvailableTitlesMenuListener implements Listener {
     private final AvailableTitlesMenuBuilder availableTitlesMenuBuilder;
     private final TitleCacheManager titleCacheManager;
+    private final TitleManager titleManager;
     private final Storage storage;
 
-    public AvailableTitlesMenuListener(AvailableTitlesMenuBuilder availableTitlesMenuBuilder, TitleCacheManager titleCacheManager, Storage storage) {
+    public AvailableTitlesMenuListener(AvailableTitlesMenuBuilder availableTitlesMenuBuilder, TitleCacheManager titleCacheManager, TitleManager titleManager, Storage storage) {
         this.availableTitlesMenuBuilder = availableTitlesMenuBuilder;
         this.titleCacheManager = titleCacheManager;
+        this.titleManager = titleManager;
         this.storage = storage;
     }
-
 
     // switch page functionality
     @EventHandler
@@ -74,7 +75,7 @@ public class AvailableTitlesMenuListener implements Listener {
                 case 45: {
                     player.closeInventory();
                     titleCacheManager.clearValue(player.getUniqueId());
-                    Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+                    Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
                         storage.setCurrentTitle(player.getName(), null);
                     });
                     player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно убрали отображение титула");
@@ -106,9 +107,9 @@ public class AvailableTitlesMenuListener implements Listener {
 
             Title title = titles.get(titleIndex);
             int id = title.getId();
-            Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
                 if (storage.hasTitle(playerName, id)) {
-                    Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                    Bukkit.getScheduler().runTask(titleManager, () -> {
                         player.closeInventory();
                     });
                     storage.setCurrentTitle(playerName, id);
@@ -116,7 +117,7 @@ public class AvailableTitlesMenuListener implements Listener {
                     player.sendMessage(ChatColor.of("#E94F08") + "▶ " + ChatColor.WHITE + "Вы успешно сменили титул на" +
                             ChatColor.AQUA + ": " + ChatColor.RESET + title.getTitleText());
                 } else {
-                    Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                    Bukkit.getScheduler().runTask(titleManager, () -> {
                         player.openInventory(availableTitlesMenuBuilder.getAvailableTitlesMenu(playerName, holder.getCurrentPage()));
                     });
                 }

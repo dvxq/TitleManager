@@ -1,7 +1,6 @@
 package ru.healthanmary.titlemanager.config;
 
 import lombok.Getter;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -11,8 +10,10 @@ import ru.healthanmary.titlemanager.TitleManager;
 
 @Getter
 public class MainConfigParser extends AbstractConfig{
-    public MainConfigParser(JavaPlugin plugin, String fileName) {
+    private final TitleManager titleManager;
+    public MainConfigParser(JavaPlugin plugin, String fileName, TitleManager titleManager) {
         super(plugin, fileName);
+        this.titleManager = titleManager;
     }
     private ItemStack exampleItem;
     private Integer exampleItemSlot;
@@ -31,7 +32,7 @@ public class MainConfigParser extends AbstractConfig{
             itemMeta.setDisplayName(section.getString("display-name"));
             exampleItem.setItemMeta(itemMeta);
         } catch (Exception e) {
-            TitleManager.instance.getLogger().warning("You wrote something invalid there: config.yml -> example-item:");
+            titleManager.getLogger().warning("You wrote something invalid there: config.yml -> example-item:");
             e.printStackTrace();
         }
         exampleItemSlot = section.getInt("slot");

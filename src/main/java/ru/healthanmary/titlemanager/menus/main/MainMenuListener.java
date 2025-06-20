@@ -15,10 +15,12 @@ import ru.healthanmary.titlemanager.util.CreationMenuManager;
 public class MainMenuListener implements Listener {
     private final Storage storage;
     private final CreationMenuManager creationMenuManager;
+    private final TitleManager titleManager;
 
-    public MainMenuListener(Storage storage, CreationMenuManager creationMenuManager) {
+    public MainMenuListener(Storage storage, CreationMenuManager creationMenuManager, TitleManager titleManager) {
         this.storage = storage;
         this.creationMenuManager = creationMenuManager;
+        this.titleManager = titleManager;
     }
 
     // main menu functionality
@@ -35,15 +37,15 @@ public class MainMenuListener implements Listener {
                 break;
             }
             case 20: {
-                Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+                Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
                     Integer playerPoints = Integer.valueOf(storage.getPlayerPoints(player.getName()));
                     if (playerPoints > 0) {
-                        Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                        Bukkit.getScheduler().runTask(titleManager, () -> {
                             player.closeInventory();
                             creationMenuManager.addPendingPlayer(player);
                         });
                     } else {
-                        Bukkit.getScheduler().runTask(TitleManager.instance, () -> {
+                        Bukkit.getScheduler().runTask(titleManager, () -> {
                             player.closeInventory();
                             player.sendMessage(ChatColor.RED + "▶ " + ChatColor.WHITE + "У вас недостаточно поинтов");
                         });

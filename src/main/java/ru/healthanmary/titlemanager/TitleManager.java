@@ -31,7 +31,7 @@ import ru.healthanmary.titlemanager.util.CreationMenuManager;
 import ru.healthanmary.titlemanager.menus.MenuManager;
 
 public final class TitleManager extends JavaPlugin {
-    public static TitleManager instance;
+
     private Storage storage;
     private TitleCacheManager cacheManager;
     private MenuManager menuManager;
@@ -46,22 +46,21 @@ public final class TitleManager extends JavaPlugin {
     private RejectCacheManager rejectCacheManager;
     @Override
     public void onEnable() {
-        instance = this;
         ensurePluginsExistence();
         mysqlConfigParser = new MysqlConfigParser(this, "mysql.yml");
         mysqlConfigParser.loadConfig();
-        mainConfigParser = new MainConfigParser(this, "config.yml");
+        mainConfigParser = new MainConfigParser(this, "config.yml", this);
         mainConfigParser.loadConfig();
 
         storage = new MysqlStorage(mysqlConfigParser);
         peekMenuBuilder = new PeekMenuBuilder(storage);
-        cacheManager = new TitleCacheManager(storage);
+        cacheManager = new TitleCacheManager(storage, this);
         titleCreationMenuBuilder = new MainTitleMenuBuilder(storage);
         availableTitlesMenuBuilder = new AvailableTitlesMenuBuilder(storage);
         reviewMenuBuilder = new ReviewMenuBuilder(storage);
         rejectCacheManager = new RejectCacheManager(storage);
         titleConfirmationMenuBuilder = new TitleConfirmationMenuBuilder(mainConfigParser);
-        creationMenuManager = new CreationMenuManager(titleConfirmationMenuBuilder);
+        creationMenuManager = new CreationMenuManager(titleConfirmationMenuBuilder, this);
         menuManager = new MenuManager();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -69,19 +68,19 @@ public final class TitleManager extends JavaPlugin {
         }
 
         // register commands
-        getCommand("customtitle").setExecutor(new OpenMainTitleMenuCmd(titleCreationMenuBuilder));
-        getCommand("availabletitles").setExecutor(new OpenAvailableTitlesMenuCmd(availableTitlesMenuBuilder));
-        getCommand("titleadmin").setExecutor(new TitleAdminCommand(storage, peekMenuBuilder, reviewMenuBuilder));
+        getCommand("customtitle").setExecutor(new OpenMainTitleMenuCmd(titleCreationMenuBuilder, this));
+        getCommand("availabletitles").setExecutor(new OpenAvailableTitlesMenuCmd(availableTitlesMenuBuilder, this));
+        getCommand("titleadmin").setExecutor(new TitleAdminCommand(storage, peekMenuBuilder, reviewMenuBuilder, this));
         getCommand("titleadmin").setTabCompleter(new TitleAdminTabCompleter());
 
         // register listeners
         getServer().getPluginManager().registerEvents(new MainClickListener(menuManager), this);
-        getServer().getPluginManager().registerEvents(new AvailableTitlesMenuListener(availableTitlesMenuBuilder, cacheManager, storage), this);
-        getServer().getPluginManager().registerEvents(new MainMenuListener(storage, creationMenuManager), this);
+        getServer().getPluginManager().registerEvents(new AvailableTitlesMenuListener(availableTitlesMenuBuilder, cacheManager, this, storage), this);
+        getServer().getPluginManager().registerEvents(new MainMenuListener(storage, creationMenuManager, this), this);
         getServer().getPluginManager().registerEvents(creationMenuManager, this);
         getServer().getPluginManager().registerEvents(new PeekMenuListener(peekMenuBuilder), this);
-        getServer().getPluginManager().registerEvents(new ConfirmationManager(creationMenuManager, storage), this);
-        getServer().getPluginManager().registerEvents(new ReviewMenuListener(storage, reviewMenuBuilder, rejectCacheManager), this);
+        getServer().getPluginManager().registerEvents(new ConfirmationManager(creationMenuManager, storage, this), this);
+        getServer().getPluginManager().registerEvents(new ReviewMenuListener(storage, reviewMenuBuilder, rejectCacheManager, this), this);
         getServer().getPluginManager().registerEvents(rejectCacheManager, this);
         getServer().getPluginManager().registerEvents(cacheManager, this);
 
@@ -100,6 +99,5 @@ public final class TitleManager extends JavaPlugin {
     }
     @Override
     public void onDisable() {
-        instance = null;
     }
 }

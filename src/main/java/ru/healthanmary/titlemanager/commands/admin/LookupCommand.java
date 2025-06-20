@@ -11,9 +11,11 @@ import java.time.format.DateTimeFormatter;
 
 public class LookupCommand implements SubCommand{
     private final Storage storage;
+    private final TitleManager titleManager;
 
-    public LookupCommand(Storage storage) {
+    public LookupCommand(Storage storage, TitleManager titleManager) {
         this.storage = storage;
+        this.titleManager = titleManager;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class LookupCommand implements SubCommand{
         }
         try {
             Integer titleId = Integer.parseInt(args[1]);
-            Bukkit.getScheduler().runTaskAsynchronously(TitleManager.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(titleManager, () -> {
                 Title title = storage.getTitleById(titleId);
 
                 if (title == null) {
@@ -34,7 +36,7 @@ public class LookupCommand implements SubCommand{
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
                 Timestamp requestDate = title.getRequestDate();
-                Timestamp acceptDate = title.getReviewtDate();
+                Timestamp acceptDate = title.getReviewDate();
                 String acceptedAdmin = (title.getReviewAdmin() != null)
                         ? title.getReviewAdmin() : "§7Нету";
 
